@@ -9,11 +9,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from '@/components/ui/badge';
-import { mockServices, mockProviders, mockFaqs } from '@/data/mockData'; 
+import { mockServices, mockProviders, mockFaqs, mockLocations } from '@/data/mockData'; 
 import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock, Hammer, Truck, Laptop, Wrench, Dumbbell, Camera, Music, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark } from 'lucide-react';
 import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
@@ -139,6 +140,7 @@ const testimonials = [
 
 export default function HomePage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [selectedLocation, setSelectedLocation] = useState<string | undefined>();
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -157,12 +159,23 @@ export default function HomePage() {
               <div className="relative">
                 <label htmlFor="service-needed" className="block text-sm font-medium text-foreground mb-1 text-left">¿Qué necesitas?</label>
                 <Search className="absolute left-3 top-[calc(50%+8px)] transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input id="service-needed" type="text" placeholder="Ej: Fontanero, electricista, clases de piano..." className="pl-10 h-12 text-foreground" />
+                <Input id="service-needed" type="text" placeholder="Ej: Fontanero, electricista..." className="pl-10 h-12 text-foreground" />
               </div>
               <div className="relative">
                 <label htmlFor="location" className="block text-sm font-medium text-foreground mb-1 text-left">Ubicación</label>
-                <MapPin className="absolute left-3 top-[calc(50%+8px)] transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input id="location" type="text" placeholder="Ej: Madrid, Barcelona" className="pl-10 h-12 text-foreground" />
+                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground z-10" />
+                 <Select value={selectedLocation} onValueChange={setSelectedLocation}>
+                  <SelectTrigger className="pl-10 h-12 text-foreground w-full">
+                    <SelectValue placeholder="Selecciona ubicación" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {mockLocations.map((location) => (
+                      <SelectItem key={location} value={location}>
+                        {location}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="relative">
                 <label htmlFor="date" className="block text-sm font-medium text-foreground mb-1 text-left">Fecha</label>
@@ -176,7 +189,7 @@ export default function HomePage() {
                       )}
                     >
                       <CalendarDays className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                      {selectedDate ? format(selectedDate, "PPP") : <span>Cuando lo necesites</span>}
+                      {selectedDate ? format(selectedDate, "PPP", { locale: require('date-fns/locale/es') }) : <span>Cuando lo necesites</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -186,6 +199,7 @@ export default function HomePage() {
                       onSelect={setSelectedDate}
                       initialFocus
                       disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() -1)) } 
+                      locale={require('date-fns/locale/es')}
                     />
                   </PopoverContent>
                 </Popover>
@@ -304,7 +318,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-headline font-semibold text-center mb-12 text-foreground">Lo que dicen nuestros usuarios</h2>
           <div className="overflow-hidden py-4">
-            <div className="flex gap-8 animate-scroll-x-loop hover:[animation-play-state:paused]">
+            <div className="flex gap-8 animate-scroll-x-loop">
               {[...testimonials, ...testimonials].map((testimonial, index) => (
                 <Card key={`${testimonial.id}-${index}`} className="flex flex-col shadow-lg bg-card min-w-[320px] md:min-w-[380px] flex-shrink-0">
                   <CardContent className="p-6 flex-grow">
@@ -387,3 +401,5 @@ export default function HomePage() {
   );
 }
 
+
+    

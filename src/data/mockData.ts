@@ -30,6 +30,27 @@ export const mockServices: Service[] = [
   { id: 'taxadvisory', name: 'Asesoría Fiscal', description: 'Ayuda con impuestos y finanzas.', icon: Landmark },
 ];
 
+export const mockLocations: string[] = [
+  "Madrid, ES",
+  "Barcelona, ES",
+  "Valencia, ES",
+  "Sevilla, ES",
+  "Zaragoza, ES",
+  "Málaga, ES",
+  "Murcia, ES",
+  "Palma de Mallorca, ES",
+  "Las Palmas de Gran Canaria, ES",
+  "Bilbao, ES",
+  "Alicante, ES",
+  "Córdoba, ES",
+  "Valladolid, ES",
+  "Vigo, ES",
+  "Gijón, ES",
+  "A Coruña, ES",
+  "Online"
+];
+
+
 const commonReviews: Review[] = [
   { id: 'r1', userId: 'user1', userName: 'Alice Smith', rating: 5, comment: 'Excellent service, very professional and on time!', date: new Date(Date.now() - 86400000 * 2).toISOString() },
   { id: 'r2', userId: 'user2', userName: 'Bob Johnson', rating: 4, comment: 'Good job, but was a bit late.', date: new Date(Date.now() - 86400000 * 5).toISOString() },
@@ -197,5 +218,7 @@ export const getServiceIconByName = (serviceName: string): React.ComponentType<a
   const service = mockServices.find(s => s.name.toLowerCase() === serviceName.toLowerCase());
   return service?.icon || Briefcase; // Fallback to a generic icon
 };
+
+    
 
     
