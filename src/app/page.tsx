@@ -6,31 +6,39 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/ui/badge'; // Added import for Badge
 import { mockServices, mockProviders, mockFaqs } from '@/data/mockData'; 
-import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock, Hammer, Truck, Laptop, Wrench, Dumbbell, Camera, Music, ChefHat, Scale } from 'lucide-react';
+import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock, Hammer, Truck, Laptop, Wrench, Dumbbell, Camera, Music, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark } from 'lucide-react';
 
 const popularCategories = mockServices.map(service => {
   const iconMap: { [key: string]: React.ComponentType<any> } = {
-    'plumbing': Wrench,
-    'electricity': Zap,
-    'gardening': Sprout,
-    'cleaning': Sparkles,
-    'painting': PaintRoller,
-    'pet care': Dog,
-    'tutoring': BookOpen,
-    'handyman': Hammer,
-    'moving services': Truck,
-    'tech support': Laptop,
-    'appliance repair': Wrench,
-    'personal trainer': Dumbbell,
-    'photography': Camera,
-    'music lessons': Music,
-    'home security': ShieldCheck,
+    'fontanería': Wrench,
+    'electricidad': Zap,
+    'jardinería': Sprout,
+    'limpieza': Sparkles,
+    'pintura': PaintRoller,
+    'cuidado de mascotas': Dog,
+    'clases particulares': BookOpen,
+    'manitas': Hammer,
+    'mudanzas': Truck,
+    'soporte técnico': Laptop,
+    'reparación de electrodomésticos': Wrench,
+    'entrenador personal': Dumbbell,
+    'fotografía': Camera,
+    'clases de música': Music,
+    'seguridad del hogar': ShieldCheck,
     'catering': ChefHat,
-    'legal services': Scale,
+    'servicios legales': Scale,
+    'cuidado de niños': Baby,
+    'carpintería': CarpentrySquare,
+    'servicios de dj': Disc3,
+    'planificación de eventos': CalendarCheck2,
+    'traducción de idiomas': Languages,
+    'diseño gráfico': Palette,
+    'desarrollo web': Code2,
+    'asesoría fiscal': Landmark,
   };
-  const IconComponent = iconMap[service.name.toLowerCase().replace(/\s+/g, '')] || Briefcase;
+  const IconComponent = iconMap[service.name.toLowerCase()] || Briefcase;
   return { ...service, icon: IconComponent };
 });
 
@@ -58,15 +66,14 @@ const howItWorksSteps = [
   },
 ];
 
-// Select featured providers based on rating and review count
 const featuredProviders = mockProviders
   .sort((a, b) => {
     if (b.rating !== a.rating) {
-      return b.rating - a.rating; // Sort by rating descending
+      return b.rating - a.rating; 
     }
-    return b.reviewCount - a.reviewCount; // Then by review count descending
+    return b.reviewCount - a.reviewCount; 
   })
-  .slice(0, 3); // Take top 3
+  .slice(0, 3); 
 
 const testimonials = [
   {
@@ -127,7 +134,6 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section id="search-services" className="relative h-[50vh] md:h-[60vh] flex items-center justify-center text-white">
-        {/* Removed Image component */}
         <div className="absolute inset-0 bg-black/60 z-10"></div>
         <div className="relative z-20 container mx-auto px-4 text-center space-y-8">
           <h1 className="text-4xl md:text-6xl font-headline font-bold drop-shadow-lg">
@@ -168,7 +174,7 @@ export default function HomePage() {
           <h2 className="text-3xl font-headline font-semibold text-center mb-10 text-foreground">Explora categorías populares</h2>
           <div className="overflow-hidden py-4">
             <div className="flex gap-6 animate-scroll-x-loop hover:[animation-play-state:paused]">
-              {[...popularCategories, ...popularCategories].map((category, index) => (
+              {[...popularCategories, ...popularCategories].map((category, index) => ( 
                 <Link href={`/search?category=${category.id}`} key={`${category.id}-${index}`} passHref>
                   <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card min-w-[160px] md:min-w-[200px] flex-shrink-0">
                     <CardContent className="flex flex-col items-center justify-center space-y-3">
@@ -225,7 +231,7 @@ export default function HomePage() {
                     objectFit="cover"
                     data-ai-hint="service action photo"
                   />
-                  <Badge variant="default" className="absolute top-3 right-3 bg-accent text-accent-foreground">Destacado</Badge>
+                   <Badge variant="default" className="absolute top-3 right-3 bg-accent text-accent-foreground">Destacado</Badge>
                 </div>
                 <CardContent className="p-5">
                   <div className="flex items-start space-x-3 mb-2">
@@ -266,9 +272,9 @@ export default function HomePage() {
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-headline font-semibold text-center mb-12 text-foreground">Lo que dicen nuestros usuarios</h2>
-          <div className="overflow-hidden py-4"> {/* Outer container for clipping, added py-4 for vertical spacing */}
-            <div className="flex gap-8 animate-scroll-x-loop hover:[animation-play-state:paused]"> {/* Inner container that scrolls */}
-              {[...testimonials, ...testimonials].map((testimonial, index) => ( // Duplicated items
+          <div className="overflow-hidden py-4">
+            <div className="flex gap-8 animate-scroll-x-loop hover:[animation-play-state:paused]">
+              {[...testimonials, ...testimonials].map((testimonial, index) => (
                 <Card key={`${testimonial.id}-${index}`} className="flex flex-col shadow-lg bg-card min-w-[320px] md:min-w-[380px] flex-shrink-0">
                   <CardContent className="p-6 flex-grow">
                     <div className="flex items-center mb-4">

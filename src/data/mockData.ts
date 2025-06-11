@@ -1,24 +1,33 @@
+
 import type { Provider, Service, Review, Booking, ChatConversation, ChatMessage } from '@/types';
-import { Wrench, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, Star, MapPin, Hammer, Truck, Laptop, Dumbbell, Camera, Music, ShieldCheck, ChefHat, Scale } from 'lucide-react';
+import { Wrench, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, Star, MapPin, Hammer, Truck, Laptop, Dumbbell, Camera, Music, ShieldCheck, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark } from 'lucide-react';
 
 export const mockServices: Service[] = [
-  { id: 'plumbing', name: 'Plumbing', description: 'Fix leaks, install pipes, and more.', icon: Wrench },
-  { id: 'electricity', name: 'Electricity', description: 'Wiring, repairs, and installations.', icon: Zap },
-  { id: 'gardening', name: 'Gardening', description: 'Lawn care, planting, and landscaping.', icon: Sprout },
-  { id: 'cleaning', name: 'Cleaning', description: 'Home and office cleaning services.', icon: Sparkles },
-  { id: 'painting', name: 'Painting', description: 'Interior and exterior painting.', icon: PaintRoller },
-  { id: 'petcare', name: 'Pet Care', description: 'Dog walking, pet sitting.', icon: Dog },
-  { id: 'tutoring', name: 'Tutoring', description: 'Private lessons for various subjects.', icon: BookOpen },
-  { id: 'handyman', name: 'Handyman', description: 'General home repairs and maintenance.', icon: Hammer },
-  { id: 'moving', name: 'Moving Services', description: 'Local and long-distance moving help.', icon: Truck },
-  { id: 'techsupport', name: 'Tech Support', description: 'IT help for computers and devices.', icon: Laptop },
-  { id: 'appliancerepair', name: 'Appliance Repair', description: 'Fixing washers, dryers, fridges, etc.', icon: Wrench },
-  { id: 'personaltrainer', name: 'Personal Trainer', description: 'Customized fitness programs.', icon: Dumbbell },
-  { id: 'photography', name: 'Photography', description: 'Portraits, events, and commercial shoots.', icon: Camera },
-  { id: 'musiclessons', name: 'Music Lessons', description: 'Learn to play an instrument.', icon: Music },
-  { id: 'homesecurity', name: 'Home Security', description: 'Installation and monitoring services.', icon: ShieldCheck },
-  { id: 'catering', name: 'Catering', description: 'Food services for events and parties.', icon: ChefHat },
-  { id: 'legalservices', name: 'Legal Services', description: 'Consultations and legal advice.', icon: Scale },
+  { id: 'plumbing', name: 'Fontanería', description: 'Reparación de fugas, instalación de tuberías y más.', icon: Wrench },
+  { id: 'electricity', name: 'Electricidad', description: 'Cableado, reparaciones e instalaciones.', icon: Zap },
+  { id: 'gardening', name: 'Jardinería', description: 'Cuidado del césped, plantación y paisajismo.', icon: Sprout },
+  { id: 'cleaning', name: 'Limpieza', description: 'Servicios de limpieza para hogar y oficinas.', icon: Sparkles },
+  { id: 'painting', name: 'Pintura', description: 'Pintura interior y exterior.', icon: PaintRoller },
+  { id: 'petcare', name: 'Cuidado de Mascotas', description: 'Paseo de perros, cuidado de mascotas.', icon: Dog },
+  { id: 'tutoring', name: 'Clases Particulares', description: 'Clases privadas para diversas asignaturas.', icon: BookOpen },
+  { id: 'handyman', name: 'Manitas', description: 'Reparaciones generales y mantenimiento del hogar.', icon: Hammer },
+  { id: 'moving', name: 'Mudanzas', description: 'Ayuda para mudanzas locales y de larga distancia.', icon: Truck },
+  { id: 'techsupport', name: 'Soporte Técnico', description: 'Ayuda informática para ordenadores y dispositivos.', icon: Laptop },
+  { id: 'appliancerepair', name: 'Reparación de Electrodomésticos', description: 'Arreglo de lavadoras, secadoras, frigoríficos, etc.', icon: Wrench },
+  { id: 'personaltrainer', name: 'Entrenador Personal', description: 'Programas de fitness personalizados.', icon: Dumbbell },
+  { id: 'photography', name: 'Fotografía', description: 'Retratos, eventos y sesiones comerciales.', icon: Camera },
+  { id: 'musiclessons', name: 'Clases de Música', description: 'Aprende a tocar un instrumento.', icon: Music },
+  { id: 'homesecurity', name: 'Seguridad del Hogar', description: 'Instalación y servicios de monitoreo.', icon: ShieldCheck },
+  { id: 'catering', name: 'Catering', description: 'Servicios de comida para eventos y fiestas.', icon: ChefHat },
+  { id: 'legalservices', name: 'Servicios Legales', description: 'Consultas y asesoramiento legal.', icon: Scale },
+  { id: 'babysitting', name: 'Cuidado de Niños', description: 'Canguros y niñeras cualificadas.', icon: Baby },
+  { id: 'carpentry', name: 'Carpintería', description: 'Muebles a medida, reparaciones en madera.', icon: CarpentrySquare },
+  { id: 'djservices', name: 'Servicios de DJ', description: 'Música para fiestas y eventos.', icon: Disc3 },
+  { id: 'eventplanning', name: 'Planificación de Eventos', description: 'Organización integral de eventos.', icon: CalendarCheck2 },
+  { id: 'translation', name: 'Traducción de Idiomas', description: 'Servicios de traducción profesional.', icon: Languages },
+  { id: 'graphicdesign', name: 'Diseño Gráfico', description: 'Logotipos, branding y material visual.', icon: Palette },
+  { id: 'webdevelopment', name: 'Desarrollo Web', description: 'Creación de páginas web y aplicaciones.', icon: Code2 },
+  { id: 'taxadvisory', name: 'Asesoría Fiscal', description: 'Ayuda con impuestos y finanzas.', icon: Landmark },
 ];
 
 const commonReviews: Review[] = [
@@ -33,82 +42,82 @@ const commonReviews: Review[] = [
 export const mockProviders: Provider[] = [
   {
     id: '1',
-    name: 'John\'s Plumbing',
-    serviceCategory: 'Plumbing',
-    description: 'Experienced plumber with over 10 years in the field. Residential and commercial services.',
-    location: 'New York, NY',
+    name: 'Juan Fontanería',
+    serviceCategory: 'Fontanería',
+    description: 'Fontanero experimentado con más de 10 años en el sector. Servicios residenciales y comerciales.',
+    location: 'Madrid, ES',
     rating: 4.8,
     reviewCount: 120,
     servicesOffered: [
-      { name: 'Leak Repair', price: 80 },
-      { name: 'Drain Cleaning', price: 100 },
-      { name: 'Faucet Installation', price: 150 },
+      { name: 'Reparación de Fugas', price: 80 },
+      { name: 'Limpieza de Desagües', price: 100 },
+      { name: 'Instalación de Grifos', price: 150 },
     ],
     hourlyRate: 75,
-    certifications: ['Master Plumber License #12345', 'Certified Water Heater Technician'],
-    availability: 'Mon-Sat, 8am-6pm',
+    certifications: ['Carnet de Fontanero #12345', 'Técnico Certificado en Calentadores'],
+    availability: 'Lun-Sáb, 8am-6pm',
     experienceYears: 10,
     profileImageUrl: 'https://placehold.co/100x100.png',
     galleryImageUrls: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
-    reviews: commonReviews.slice(0,3).map(r => ({...r, id: `p1-${r.id}`})),
+    reviews: commonReviews.slice(0,3).map(r => ({...r, id: `p1-${r.id}`, userName: r.userName.replace('Smith', 'García').replace('Johnson', 'López')})),
   },
   {
     id: '2',
-    name: 'Bright Spark Electrical',
-    serviceCategory: 'Electricity',
-    description: 'Your local expert for all electrical needs. Fast, reliable, and safe.',
-    location: 'Los Angeles, CA',
+    name: 'Chispas Eléctricas S.L.',
+    serviceCategory: 'Electricidad',
+    description: 'Tu experto local para todas las necesidades eléctricas. Rápido, fiable y seguro.',
+    location: 'Barcelona, ES',
     rating: 4.5,
     reviewCount: 85,
     servicesOffered: [
-      { name: 'Outlet Repair', price: 60 },
-      { name: 'Light Fixture Installation', price: 90 },
-      { name: 'Circuit Breaker Replacement', price: 200 },
+      { name: 'Reparación de Enchufes', price: 60 },
+      { name: 'Instalación de Lámparas', price: 90 },
+      { name: 'Cambio de Automáticos', price: 200 },
     ],
     hourlyRate: 80,
-    certifications: ['Licensed Electrician #E67890', 'Home Safety Certified'],
-    availability: '24/7 Emergency Service',
+    certifications: ['Electricista Autorizado #E67890', 'Certificado Seguridad Hogar'],
+    availability: 'Servicio Urgencias 24/7',
     experienceYears: 8,
     profileImageUrl: 'https://placehold.co/100x100.png',
     galleryImageUrls: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
-    reviews: commonReviews.slice(1,4).map(r => ({...r, id: `p2-${r.id}`})),
+    reviews: commonReviews.slice(1,4).map(r => ({...r, id: `p2-${r.id}`, userName: r.userName.replace('Williams', 'Martínez')})),
   },
   {
     id: '3',
-    name: 'Green Thumb Gardeners',
-    serviceCategory: 'Gardening',
-    description: 'Transforming outdoor spaces with passion and expertise. Organic gardening specialist.',
-    location: 'Chicago, IL',
+    name: 'Jardines Verdes',
+    serviceCategory: 'Jardinería',
+    description: 'Transformando espacios exteriores con pasión y pericia. Especialista en jardinería orgánica.',
+    location: 'Valencia, ES',
     rating: 4.9,
     reviewCount: 200,
     servicesOffered: [
-      { name: 'Lawn Mowing', price: 50 },
-      { name: 'Hedge Trimming', price: 70 },
-      { name: 'Garden Design Consultation', price: 120 },
+      { name: 'Corte de Césped', price: 50 },
+      { name: 'Poda de Setos', price: 70 },
+      { name: 'Consulta Diseño Jardín', price: 120 },
     ],
     hourlyRate: 65,
-    certifications: ['Certified Horticulturist', 'Organic Land Care Professional'],
-    availability: 'Mon-Fri, 9am-5pm',
+    certifications: ['Horticultor Certificado', 'Profesional Cuidado Orgánico Terrenos'],
+    availability: 'Lun-Vie, 9am-5pm',
     experienceYears: 12,
     profileImageUrl: 'https://placehold.co/100x100.png',
     galleryImageUrls: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
-    reviews: commonReviews.slice(2,5).map(r => ({...r, id: `p3-${r.id}`})),
+    reviews: commonReviews.slice(2,5).map(r => ({...r, id: `p3-${r.id}`, userName: r.userName.replace('Brown', 'Sánchez').replace('Davis', 'Pérez')})),
   },
   {
     id: '4',
-    name: 'Sparkle Clean Co.',
-    serviceCategory: 'Cleaning',
-    description: 'Dedicated to making your space shine. Eco-friendly cleaning solutions.',
-    location: 'Houston, TX',
+    name: 'Limpiezas BrilloTotal',
+    serviceCategory: 'Limpieza',
+    description: 'Dedicados a hacer brillar tu espacio. Soluciones de limpieza ecológicas.',
+    location: 'Sevilla, ES',
     rating: 4.7,
     reviewCount: 150,
     servicesOffered: [
-      { name: 'Standard Home Cleaning (2hr)', price: 90 },
-      { name: 'Deep Cleaning (4hr)', price: 180 },
-      { name: 'Office Cleaning (per sq ft)', price: 0.10 },
+      { name: 'Limpieza Hogar Estándar (2h)', price: 90 },
+      { name: 'Limpieza Profunda (4h)', price: 180 },
+      { name: 'Limpieza Oficina (por m²)', price: 0.10 },
     ],
-    certifications: ['Green Clean Certified', 'Insured and Bonded'],
-    availability: 'Mon-Sat, 7am-7pm',
+    certifications: ['Certificado Limpieza Ecológica', 'Asegurado y Afianzado'],
+    availability: 'Lun-Sáb, 7am-7pm',
     experienceYears: 5,
     profileImageUrl: 'https://placehold.co/100x100.png',
     galleryImageUrls: ['https://placehold.co/600x400.png'],
@@ -116,20 +125,20 @@ export const mockProviders: Provider[] = [
   },
   {
     id: '5',
-    name: 'A+ Tutoring Services',
-    serviceCategory: 'Tutoring',
-    description: 'Experienced tutors for K-12 and college subjects. Personalized learning plans.',
-    location: 'Online / San Francisco, CA',
+    name: 'Tutorías ÉxitoTotal',
+    serviceCategory: 'Clases Particulares',
+    description: 'Tutores experimentados para Primaria, ESO, Bachillerato y Universidad. Planes de estudio personalizados.',
+    location: 'Online / Bilbao, ES',
     rating: 4.9,
     reviewCount: 95,
     servicesOffered: [
-      { name: 'Math Tutoring (1hr)', price: 50 },
-      { name: 'Science Tutoring (1hr)', price: 55 },
-      { name: 'Test Prep (SAT/ACT) (1hr)', price: 70 },
+      { name: 'Clases Matemáticas (1h)', price: 50 },
+      { name: 'Clases Ciencias (1h)', price: 55 },
+      { name: 'Preparación Selectividad (1h)', price: 70 },
     ],
     hourlyRate: 50,
-    certifications: ['Certified Educator', 'Subject Matter Expert (Various)'],
-    availability: 'Flexible Hours, Online & In-Person',
+    certifications: ['Educador Certificado', 'Experto Materia (Varias)'],
+    availability: 'Horario Flexible, Online y Presencial',
     experienceYears: 7,
     profileImageUrl: 'https://placehold.co/100x100.png',
     galleryImageUrls: [],
@@ -138,25 +147,25 @@ export const mockProviders: Provider[] = [
 ];
 
 export const mockBookings: Booking[] = [
-  { id: 'b1', providerId: '1', providerName: 'John\'s Plumbing', serviceName: 'Leak Repair', dateTime: new Date(Date.now() + 86400000 * 3).toISOString(), status: 'confirmed' },
-  { id: 'b2', providerId: '3', providerName: 'Green Thumb Gardeners', serviceName: 'Lawn Mowing', dateTime: new Date(Date.now() + 86400000 * 7).toISOString(), status: 'pending' },
-  { id: 'b3', providerId: '4', providerName: 'Sparkle Clean Co.', serviceName: 'Standard Home Cleaning', dateTime: new Date(Date.now() - 86400000 * 2).toISOString(), status: 'completed' },
+  { id: 'b1', providerId: '1', providerName: 'Juan Fontanería', serviceName: 'Reparación de Fugas', dateTime: new Date(Date.now() + 86400000 * 3).toISOString(), status: 'confirmed' },
+  { id: 'b2', providerId: '3', providerName: 'Jardines Verdes', serviceName: 'Corte de Césped', dateTime: new Date(Date.now() + 86400000 * 7).toISOString(), status: 'pending' },
+  { id: 'b3', providerId: '4', providerName: 'Limpiezas BrilloTotal', serviceName: 'Limpieza Hogar Estándar', dateTime: new Date(Date.now() - 86400000 * 2).toISOString(), status: 'completed' },
 ];
 
 export const mockConversations: ChatConversation[] = [
-  { id: 'convo1', participantName: 'John\'s Plumbing', participantAvatar: 'https://placehold.co/40x40.png', lastMessage: 'Yes, I can come tomorrow at 2 PM.', lastMessageTimestamp: Date.now() - 3600000, unreadCount: 0 },
-  { id: 'convo2', participantName: 'Green Thumb Gardeners', participantAvatar: 'https://placehold.co/40x40.png', lastMessage: 'Your garden looks great!', lastMessageTimestamp: Date.now() - 86400000, unreadCount: 1 },
+  { id: 'convo1', participantName: 'Juan Fontanería', participantAvatar: 'https://placehold.co/40x40.png', lastMessage: 'Sí, puedo ir mañana a las 14h.', lastMessageTimestamp: Date.now() - 3600000, unreadCount: 0 },
+  { id: 'convo2', participantName: 'Jardines Verdes', participantAvatar: 'https://placehold.co/40x40.png', lastMessage: '¡Tu jardín luce genial!', lastMessageTimestamp: Date.now() - 86400000, unreadCount: 1 },
 ];
 
 export const mockMessages: { [conversationId: string]: ChatMessage[] } = {
   'convo1': [
-    { id: 'msg1', senderId: 'user', receiverId: '1', text: 'Hi, are you available for a leak repair tomorrow?', timestamp: Date.now() - 7200000 },
-    { id: 'msg2', senderId: '1', receiverId: 'user', text: 'Hello! Yes, I can come tomorrow at 2 PM. Does that work for you?', timestamp: Date.now() - 3600000 },
+    { id: 'msg1', senderId: 'user', receiverId: '1', text: 'Hola, ¿estás disponible para una reparación de fuga mañana?', timestamp: Date.now() - 7200000 },
+    { id: 'msg2', senderId: '1', receiverId: 'user', text: '¡Hola! Sí, puedo ir mañana a las 14h. ¿Te viene bien?', timestamp: Date.now() - 3600000 },
   ],
   'convo2': [
-    { id: 'msg3', senderId: '3', receiverId: 'user', text: 'Just finished your lawn. It looks great!', timestamp: Date.now() - 86400000 * 2 },
-    { id: 'msg4', senderId: 'user', receiverId: '3', text: 'Thanks so much! I\'ll leave a review.', timestamp: Date.now() - 86400000 },
-    { id: 'msg5', senderId: '3', receiverId: 'user', text: 'Great, appreciate it!', timestamp: Date.now() - 72000000, isRead: false },
+    { id: 'msg3', senderId: '3', receiverId: 'user', text: 'Acabo de terminar tu césped. ¡Luce genial!', timestamp: Date.now() - 86400000 * 2 },
+    { id: 'msg4', senderId: 'user', receiverId: '3', text: '¡Muchas gracias! Dejaré una reseña.', timestamp: Date.now() - 86400000 },
+    { id: 'msg5', senderId: '3', receiverId: 'user', text: 'Genial, ¡lo agradezco!', timestamp: Date.now() - 72000000, isRead: false },
   ],
 };
 
@@ -175,10 +184,18 @@ export const mockFaqs: { question: string, answer: string }[] = [
   },
   {
     question: "Soy profesional, ¿cómo me uno a ServiMatch?",
-    answer: "¡Es fácil! Haz clic en 'Conviértete en profesional', completa tu perfil con tus servicios, experiencia y tarifas. Una vez verificado, empezarás a recibir solicitudes de clientes."
+    answer: "¡Es fácil! Haz clic en 'Conviértete en profesional', completa tu perfil con tus servicios, experiencia, tarifas y sube una foto de tu DNI para verificación. Una vez aprobado, empezarás a recibir solicitudes de clientes."
   },
   {
     question: "¿Tiene algún costo registrarse como profesional?",
     answer: "Registrarse y crear un perfil en ServiMatch es completamente gratis. Solo aplicamos una pequeña comisión por servicio completado y pagado a través de la plataforma."
   }
 ];
+
+// Helper to get service icon by name (used in multiple places)
+export const getServiceIconByName = (serviceName: string): React.ComponentType<any> => {
+  const service = mockServices.find(s => s.name.toLowerCase() === serviceName.toLowerCase());
+  return service?.icon || Briefcase; // Fallback to a generic icon
+};
+
+    
