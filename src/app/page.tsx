@@ -1,4 +1,6 @@
 
+"use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -9,6 +11,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from '@/components/ui/badge';
 import { mockServices, mockProviders, mockFaqs } from '@/data/mockData'; 
 import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock, Hammer, Truck, Laptop, Wrench, Dumbbell, Camera, Music, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark } from 'lucide-react';
+import { useState } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+
 
 const popularCategories = mockServices.map(service => {
   const iconMap: { [key: string]: React.ComponentType<any> } = {
@@ -130,6 +138,8 @@ const testimonials = [
 
 
 export default function HomePage() {
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -156,8 +166,29 @@ export default function HomePage() {
               </div>
               <div className="relative">
                 <label htmlFor="date" className="block text-sm font-medium text-foreground mb-1 text-left">Fecha</label>
-                <CalendarDays className="absolute left-3 top-[calc(50%+8px)] transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input id="date" type="text" placeholder="Cuando lo necesites" className="pl-10 h-12 text-foreground" />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full pl-10 h-12 justify-start text-left font-normal text-foreground",
+                        !selectedDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarDays className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                      {selectedDate ? format(selectedDate, "PPP") : <span>Cuando lo necesites</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={selectedDate}
+                      onSelect={setSelectedDate}
+                      initialFocus
+                      disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() -1)) } 
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
               <Button size="lg" className="h-12 w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base">
                 <Search className="mr-2 h-5 w-5 md:hidden" />
