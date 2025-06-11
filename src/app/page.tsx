@@ -166,26 +166,16 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section id="search-services" className="relative h-[50vh] md:h-[60vh] flex items-center justify-center text-white">
-        <Image
-          src="https://placehold.co/1600x900.png"
-          alt="Servicios profesionales diversos"
-          layout="fill"
-          objectFit="cover"
-          className="absolute inset-0 z-0"
-          priority
-          data-ai-hint="happy people service"
-        />
-        <div className="absolute inset-0 bg-black/60 z-10"></div>
-        <div className="relative z-20 container mx-auto px-4 text-center space-y-8">
-          <h1 className="text-4xl md:text-6xl font-headline font-bold drop-shadow-lg">
+      <section id="search-services" className="py-16 md:py-24 flex items-center justify-center">
+        <div className="container mx-auto px-4 text-center space-y-8">
+          <h1 className="text-4xl md:text-6xl font-headline font-bold text-foreground">
             Encuentra al mejor profesional <span className="text-primary">cerca de ti</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto drop-shadow-md">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Compara precios, reserva al instante y recibe atención de confianza para todas tus necesidades del hogar y más.
           </p>
-          <div className="bg-background/95 p-4 md:p-6 rounded-lg shadow-2xl max-w-3xl mx-auto backdrop-blur-md">
-            <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-[2fr_1.5fr_1fr_auto] gap-3 items-end">
+          <div className="bg-card border p-6 md:p-8 rounded-xl shadow-2xl max-w-4xl mx-auto backdrop-blur-lg">
+            <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
               <div className="relative">
                 <Label htmlFor="service-needed" className="block text-sm font-medium text-foreground mb-1 text-left">¿Qué necesitas?</Label>
                  <Popover open={openServicePopover} onOpenChange={setOpenServicePopover}>
@@ -308,9 +298,9 @@ export default function HomePage() {
                   </PopoverContent>
                 </Popover>
               </div>
-              <Button type="submit" size="lg" className="h-12 w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base">
-                <Search className="mr-2 h-5 w-5 md:hidden" />
-                <span className="hidden md:inline">Buscar</span>
+              <Button type="submit" size="lg" className="h-12 w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base">
+                <Search className="mr-2 h-5 w-5" />
+                <span className="inline">Buscar</span>
               </Button>
             </form>
           </div>
@@ -504,7 +494,6 @@ export default function HomePage() {
     </div>
   );
 }
-
     
-
+    
     
