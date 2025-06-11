@@ -11,20 +11,18 @@ import { mockServices, mockProviders, mockFaqs } from '@/data/mockData';
 import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock, Hammer, Truck, Laptop, Wrench, Dumbbell, Camera, Music, ChefHat, Scale } from 'lucide-react';
 
 const popularCategories = mockServices.map(service => {
-  // Mapping icons based on service names or using a default.
-  // This map can be expanded as more specific icons are needed or if names change.
   const iconMap: { [key: string]: React.ComponentType<any> } = {
     'plumbing': Wrench,
     'electricity': Zap,
     'gardening': Sprout,
     'cleaning': Sparkles,
     'painting': PaintRoller,
-    'pet care': Dog, // Adjusted to match potential mockData naming
+    'pet care': Dog,
     'tutoring': BookOpen,
     'handyman': Hammer,
     'moving services': Truck,
     'tech support': Laptop,
-    'appliance repair': Wrench, // Wrench is used for plumbing too, which is fine
+    'appliance repair': Wrench,
     'personal trainer': Dumbbell,
     'photography': Camera,
     'music lessons': Music,
@@ -60,7 +58,15 @@ const howItWorksSteps = [
   },
 ];
 
-const featuredProviders = mockProviders.slice(0, 3); 
+// Select featured providers based on rating and review count
+const featuredProviders = mockProviders
+  .sort((a, b) => {
+    if (b.rating !== a.rating) {
+      return b.rating - a.rating; // Sort by rating descending
+    }
+    return b.reviewCount - a.reviewCount; // Then by review count descending
+  })
+  .slice(0, 3); // Take top 3
 
 const testimonials = [
   {
@@ -351,3 +357,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    
