@@ -12,9 +12,8 @@ interface ProviderCardProps {
   provider: Provider;
 }
 
-// Minimal mockServices for ProviderCard, can be expanded or moved to mockData.ts
-// Moved this to the top as it's used by the component logic before the return statement.
-const mockServices = [
+// Minimal mockServices for ProviderCard, icons must be imported from lucide-react
+const localMockServices = [
   { name: 'Plumbing', icon: Wrench },
   { name: 'Electricity', icon: Zap },
   { name: 'Gardening', icon: Sprout },
@@ -22,11 +21,11 @@ const mockServices = [
   { name: 'Painting', icon: PaintRoller },
   { name: 'Pet Care', icon: Dog },
   { name: 'Tutoring', icon: BookOpen },
-  { name: 'Default', icon: Briefcase} // Added a default entry
+  { name: 'Default', icon: Briefcase}
 ];
 
 export default function ProviderCard({ provider }: ProviderCardProps) {
-  const ServiceIcon = mockServices.find(s => s.name.toLowerCase() === provider.serviceCategory.toLowerCase())?.icon || Briefcase;
+  const ServiceIconComponent = localMockServices.find(s => s.name.toLowerCase() === provider.serviceCategory.toLowerCase())?.icon || Briefcase;
   
   return (
     <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -54,7 +53,7 @@ export default function ProviderCard({ provider }: ProviderCardProps) {
           <CardTitle className="text-xl font-headline">{provider.name}</CardTitle>
         </div>
         <div className="flex items-center text-sm text-muted-foreground mb-1">
-          <ServiceIcon className="w-4 h-4 mr-2 text-primary" />
+          <ServiceIconComponent className="w-4 h-4 mr-2 text-primary" />
           <span>{provider.serviceCategory}</span>
         </div>
         <div className="flex items-center text-sm text-muted-foreground mb-2">
