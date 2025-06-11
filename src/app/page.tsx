@@ -30,7 +30,7 @@ const popularCategories = mockServices.map(service => {
     'catering': ChefHat,
     'legal services': Scale,
   };
-  const IconComponent = iconMap[service.name.toLowerCase()] || Briefcase;
+  const IconComponent = iconMap[service.name.toLowerCase().replace(/\s+/g, '')] || Briefcase;
   return { ...service, icon: IconComponent };
 });
 
@@ -127,15 +127,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section id="search-services" className="relative h-[50vh] md:h-[60vh] flex items-center justify-center text-white">
-        <Image
-          src="https://placehold.co/1920x1080.png" 
-          alt="Personas recibiendo servicios profesionales"
-          layout="fill"
-          objectFit="cover"
-          className="absolute z-0"
-          data-ai-hint="happy people service"
-          priority
-        />
+        {/* Removed Image component */}
         <div className="absolute inset-0 bg-black/60 z-10"></div>
         <div className="relative z-20 container mx-auto px-4 text-center space-y-8">
           <h1 className="text-4xl md:text-6xl font-headline font-bold drop-shadow-lg">
