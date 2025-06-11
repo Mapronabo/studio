@@ -12,18 +12,17 @@ import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, Thum
 
 const popularCategories = mockServices.slice(0, 6).map(service => {
   let IconComponent = Briefcase; // Default icon
-  let imageAiHint = "service abstract"; // Default hint
 
-  if (service.name === 'Plumbing') { IconComponent = Zap; imageAiHint = "plumbing tools"; }
-  else if (service.name === 'Electricity') { IconComponent = Zap; imageAiHint = "electrical tools"; }
-  else if (service.name === 'Gardening') { IconComponent = Sprout; imageAiHint = "garden plants"; }
-  else if (service.name === 'Cleaning') { IconComponent = Sparkles; imageAiHint = "cleaning supplies"; }
-  else if (service.name === 'Painting') { IconComponent = PaintRoller; imageAiHint = "paint supplies"; }
-  else if (service.name === 'Pet Care') { IconComponent = Dog; imageAiHint = "pet care"; }
+  if (service.name === 'Plumbing') { IconComponent = Zap; }
+  else if (service.name === 'Electricity') { IconComponent = Zap; }
+  else if (service.name === 'Gardening') { IconComponent = Sprout; }
+  else if (service.name === 'Cleaning') { IconComponent = Sparkles; }
+  else if (service.name === 'Painting') { IconComponent = PaintRoller; }
+  else if (service.name === 'Pet Care') { IconComponent = Dog; }
   // Tutoring is not in slice(0,6) by default with current mockData.
-  // else if (service.name === 'Tutoring') { IconComponent = BookOpen; imageAiHint = "study books"; }
+  // else if (service.name === 'Tutoring') { IconComponent = BookOpen; }
   
-  return { ...service, icon: IconComponent, imageAiHint: imageAiHint };
+  return { ...service, icon: IconComponent };
 });
 
 
@@ -110,7 +109,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section id="search-services" className="relative h-[70vh] md:h-[80vh] flex items-center justify-center text-white">
+      <section id="search-services" className="relative h-[50vh] md:h-[60vh] flex items-center justify-center text-white">
         <Image
           src="https://placehold.co/1920x1080.png" 
           alt="Personas recibiendo servicios profesionales"
@@ -162,19 +161,11 @@ export default function HomePage() {
             {popularCategories.map((category) => (
               <Link href={`/search?category=${category.id}`} key={category.id} passHref>
                 <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card">
-                  <CardContent className="flex flex-col items-center justify-center space-y-2">
-                    <Image
-                      src="https://placehold.co/80x80.png"
-                      alt={category.name}
-                      width={80}
-                      height={80}
-                      className="rounded-md object-cover mb-2"
-                      data-ai-hint={category.imageAiHint}
-                    />
-                    <div className="p-3 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
-                      <category.icon className="w-8 h-8 text-primary" />
+                  <CardContent className="flex flex-col items-center justify-center space-y-3">
+                    <div className="p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
+                      <category.icon className="w-10 h-10 text-primary" />
                     </div>
-                    <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm">{category.name}</p>
+                    <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-base">{category.name}</p>
                   </CardContent>
                 </Card>
               </Link>
