@@ -173,11 +173,11 @@ export default function HomePage() {
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-headline font-semibold text-center mb-10 text-foreground">Explora categorías populares</h2>
           <div className="overflow-hidden py-4">
-            <div className="flex gap-6 animate-scroll-x-loop"> {/* Removed hover:[animation-play-state:paused] */}
+            <div className="flex gap-6 animate-scroll-x-loop">
               {[...popularCategories, ...popularCategories].map((category, index) => ( 
                 <Link href={`/search?category=${category.id}`} key={`${category.id}-${index}`} passHref>
-                  <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card min-w-[160px] md:min-w-[200px] flex-shrink-0">
-                    <CardContent className="flex flex-col items-center justify-center space-y-3">
+                  <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card min-w-[160px] md:min-w-[200px] flex-shrink-0 aspect-square">
+                    <CardContent className="flex flex-col items-center justify-center space-y-3 h-full">
                       <div className="p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
                         <category.icon className="w-10 h-10 text-primary" />
                       </div>
@@ -355,3 +355,4 @@ export default function HomePage() {
     </div>
   );
 }
+
