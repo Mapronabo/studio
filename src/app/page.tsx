@@ -12,15 +12,18 @@ import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, Thum
 
 const popularCategories = mockServices.slice(0, 6).map(service => {
   let IconComponent = Briefcase; // Default icon
-  if (service.name === 'Plumbing') IconComponent = Zap; 
-  else if (service.name === 'Electricity') IconComponent = Zap;
-  else if (service.name === 'Gardening') IconComponent = Sprout;
-  else if (service.name === 'Cleaning') IconComponent = Sparkles;
-  else if (service.name === 'Painting') IconComponent = PaintRoller;
-  else if (service.name === 'Pet Care') IconComponent = Dog;
-  else if (service.name === 'Tutoring') IconComponent = BookOpen;
+  let imageAiHint = "service abstract"; // Default hint
+
+  if (service.name === 'Plumbing') { IconComponent = Zap; imageAiHint = "plumbing tools"; }
+  else if (service.name === 'Electricity') { IconComponent = Zap; imageAiHint = "electrical tools"; }
+  else if (service.name === 'Gardening') { IconComponent = Sprout; imageAiHint = "garden plants"; }
+  else if (service.name === 'Cleaning') { IconComponent = Sparkles; imageAiHint = "cleaning supplies"; }
+  else if (service.name === 'Painting') { IconComponent = PaintRoller; imageAiHint = "paint supplies"; }
+  else if (service.name === 'Pet Care') { IconComponent = Dog; imageAiHint = "pet care"; }
+  // Tutoring is not in slice(0,6) by default with current mockData.
+  // else if (service.name === 'Tutoring') { IconComponent = BookOpen; imageAiHint = "study books"; }
   
-  return { ...service, icon: IconComponent };
+  return { ...service, icon: IconComponent, imageAiHint: imageAiHint };
 });
 
 
@@ -158,12 +161,20 @@ export default function HomePage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
             {popularCategories.map((category) => (
               <Link href={`/search?category=${category.id}`} key={category.id} passHref>
-                <Card className="group text-center p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card">
-                  <CardContent className="flex flex-col items-center justify-center space-y-3">
-                    <div className="p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
-                      <category.icon className="w-10 h-10 text-primary" />
+                <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card">
+                  <CardContent className="flex flex-col items-center justify-center space-y-2">
+                    <Image
+                      src="https://placehold.co/80x80.png"
+                      alt={category.name}
+                      width={80}
+                      height={80}
+                      className="rounded-md object-cover mb-2"
+                      data-ai-hint={category.imageAiHint}
+                    />
+                    <div className="p-3 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
+                      <category.icon className="w-8 h-8 text-primary" />
                     </div>
-                    <p className="font-semibold text-foreground group-hover:text-primary transition-colors">{category.name}</p>
+                    <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm">{category.name}</p>
                   </CardContent>
                 </Card>
               </Link>
