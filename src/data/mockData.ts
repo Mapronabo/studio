@@ -149,3 +149,26 @@ export const mockMessages: { [conversationId: string]: ChatMessage[] } = {
     { id: 'msg5', senderId: '3', receiverId: 'user', text: 'Great, appreciate it!', timestamp: Date.now() - 72000000, isRead: false },
   ],
 };
+
+export const mockFaqs: { question: string, answer: string }[] = [
+  {
+    question: "¿Cómo funciona ServiMatch?",
+    answer: "ServiMatch te conecta con profesionales locales. Simplemente busca el servicio que necesitas, compara perfiles y precios, reserva directamente y paga de forma segura a través de la plataforma. Después del servicio, puedes valorar al profesional."
+  },
+  {
+    question: "¿Es seguro pagar a través de ServiMatch?",
+    answer: "Sí, utilizamos pasarelas de pago seguras y encriptadas para proteger tu información financiera. El pago se retiene hasta que confirmas que el servicio se ha completado satisfactoriamente (según el tipo de servicio)."
+  },
+  {
+    question: "¿Qué pasa si tengo un problema con un servicio?",
+    answer: "Nuestro equipo de soporte está aquí para ayudarte. Puedes contactarnos a través del Centro de Ayuda y mediaremos para resolver cualquier inconveniente que puedas tener con un profesional."
+  },
+  {
+    question: "Soy profesional, ¿cómo me uno a ServiMatch?",
+    answer: "¡Es fácil! Haz clic en 'Conviértete en profesional', completa tu perfil con tus servicios, experiencia y tarifas. Una vez verificado, empezarás a recibir solicitudes de clientes."
+  },
+  {
+    question: "¿Tiene algún costo registrarse como profesional?",
+    answer: "Registrarse y crear un perfil en ServiMatch es completamente gratis. Solo aplicamos una pequeña comisión por servicio completado y pagado a través de la plataforma."
+  }
+];
