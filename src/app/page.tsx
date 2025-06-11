@@ -8,20 +8,31 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from '@/components/ui/badge';
 import { mockServices, mockProviders, mockFaqs } from '@/data/mockData'; 
-import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock } from 'lucide-react';
+import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock, Hammer, Truck, Laptop, Wrench, Dumbbell, Camera, Music, ChefHat, Scale } from 'lucide-react';
 
-const popularCategories = mockServices.slice(0, 6).map(service => {
-  let IconComponent = Briefcase; // Default icon
-
-  if (service.name === 'Plumbing') { IconComponent = Zap; }
-  else if (service.name === 'Electricity') { IconComponent = Zap; }
-  else if (service.name === 'Gardening') { IconComponent = Sprout; }
-  else if (service.name === 'Cleaning') { IconComponent = Sparkles; }
-  else if (service.name === 'Painting') { IconComponent = PaintRoller; }
-  else if (service.name === 'Pet Care') { IconComponent = Dog; }
-  // Tutoring is not in slice(0,6) by default with current mockData.
-  // else if (service.name === 'Tutoring') { IconComponent = BookOpen; }
-  
+const popularCategories = mockServices.map(service => {
+  // Mapping icons based on service names or using a default.
+  // This map can be expanded as more specific icons are needed or if names change.
+  const iconMap: { [key: string]: React.ComponentType<any> } = {
+    'plumbing': Wrench,
+    'electricity': Zap,
+    'gardening': Sprout,
+    'cleaning': Sparkles,
+    'painting': PaintRoller,
+    'pet care': Dog, // Adjusted to match potential mockData naming
+    'tutoring': BookOpen,
+    'handyman': Hammer,
+    'moving services': Truck,
+    'tech support': Laptop,
+    'appliance repair': Wrench, // Wrench is used for plumbing too, which is fine
+    'personal trainer': Dumbbell,
+    'photography': Camera,
+    'music lessons': Music,
+    'home security': ShieldCheck,
+    'catering': ChefHat,
+    'legal services': Scale,
+  };
+  const IconComponent = iconMap[service.name.toLowerCase()] || Briefcase;
   return { ...service, icon: IconComponent };
 });
 
@@ -157,19 +168,21 @@ export default function HomePage() {
       <section className="py-16 bg-secondary/30">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-headline font-semibold text-center mb-10 text-foreground">Explora categorías populares</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-            {popularCategories.map((category) => (
-              <Link href={`/search?category=${category.id}`} key={category.id} passHref>
-                <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card">
-                  <CardContent className="flex flex-col items-center justify-center space-y-3">
-                    <div className="p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
-                      <category.icon className="w-10 h-10 text-primary" />
-                    </div>
-                    <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-base">{category.name}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+          <div className="overflow-hidden py-4">
+            <div className="flex gap-6 animate-scroll-x-loop hover:[animation-play-state:paused]">
+              {[...popularCategories, ...popularCategories].map((category, index) => (
+                <Link href={`/search?category=${category.id}`} key={`${category.id}-${index}`} passHref>
+                  <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card min-w-[160px] md:min-w-[200px] flex-shrink-0">
+                    <CardContent className="flex flex-col items-center justify-center space-y-3">
+                      <div className="p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
+                        <category.icon className="w-10 h-10 text-primary" />
+                      </div>
+                      <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-base">{category.name}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>

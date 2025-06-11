@@ -1,5 +1,5 @@
 import type { Provider, Service, Review, Booking, ChatConversation, ChatMessage } from '@/types';
-import { Wrench, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, Star, MapPin } from 'lucide-react';
+import { Wrench, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, Star, MapPin, Hammer, Truck, Laptop, Dumbbell, Camera, Music, ShieldCheck, ChefHat, Scale } from 'lucide-react';
 
 export const mockServices: Service[] = [
   { id: 'plumbing', name: 'Plumbing', description: 'Fix leaks, install pipes, and more.', icon: Wrench },
@@ -9,6 +9,16 @@ export const mockServices: Service[] = [
   { id: 'painting', name: 'Painting', description: 'Interior and exterior painting.', icon: PaintRoller },
   { id: 'petcare', name: 'Pet Care', description: 'Dog walking, pet sitting.', icon: Dog },
   { id: 'tutoring', name: 'Tutoring', description: 'Private lessons for various subjects.', icon: BookOpen },
+  { id: 'handyman', name: 'Handyman', description: 'General home repairs and maintenance.', icon: Hammer },
+  { id: 'moving', name: 'Moving Services', description: 'Local and long-distance moving help.', icon: Truck },
+  { id: 'techsupport', name: 'Tech Support', description: 'IT help for computers and devices.', icon: Laptop },
+  { id: 'appliancerepair', name: 'Appliance Repair', description: 'Fixing washers, dryers, fridges, etc.', icon: Wrench },
+  { id: 'personaltrainer', name: 'Personal Trainer', description: 'Customized fitness programs.', icon: Dumbbell },
+  { id: 'photography', name: 'Photography', description: 'Portraits, events, and commercial shoots.', icon: Camera },
+  { id: 'musiclessons', name: 'Music Lessons', description: 'Learn to play an instrument.', icon: Music },
+  { id: 'homesecurity', name: 'Home Security', description: 'Installation and monitoring services.', icon: ShieldCheck },
+  { id: 'catering', name: 'Catering', description: 'Food services for events and parties.', icon: ChefHat },
+  { id: 'legalservices', name: 'Legal Services', description: 'Consultations and legal advice.', icon: Scale },
 ];
 
 const commonReviews: Review[] = [
