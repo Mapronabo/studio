@@ -1,10 +1,8 @@
 
 import type { Provider, Service, Review, Booking, ChatConversation, ChatMessage } from '@/types';
-import { Wrench, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, Star, MapPin, Hammer, Truck, Laptop, Dumbbell, Camera, Music, ShieldCheck, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark } from 'lucide-react';
+import { Wrench, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, Star, MapPin, Hammer, Truck, Laptop, Dumbbell, Camera, Music, ShieldCheck, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark, Hand, Scissors, Smile, Wand2, Briefcase } from 'lucide-react';
 
 export const mockServices: Service[] = [
-  { id: 'plumbing', name: 'Fontanería', description: 'Reparación de fugas, instalación de tuberías y más.', icon: Wrench },
-  { id: 'electricity', name: 'Electricidad', description: 'Cableado, reparaciones e instalaciones.', icon: Zap },
   { id: 'gardening', name: 'Jardinería', description: 'Cuidado del césped, plantación y paisajismo.', icon: Sprout },
   { id: 'cleaning', name: 'Limpieza', description: 'Servicios de limpieza para hogar y oficinas.', icon: Sparkles },
   { id: 'painting', name: 'Pintura', description: 'Pintura interior y exterior.', icon: PaintRoller },
@@ -28,6 +26,10 @@ export const mockServices: Service[] = [
   { id: 'graphicdesign', name: 'Diseño Gráfico', description: 'Logotipos, branding y material visual.', icon: Palette },
   { id: 'webdevelopment', name: 'Desarrollo Web', description: 'Creación de páginas web y aplicaciones.', icon: Code2 },
   { id: 'taxadvisory', name: 'Asesoría Fiscal', description: 'Ayuda con impuestos y finanzas.', icon: Landmark },
+  { id: 'manicurist', name: 'Manicurista', description: 'Cuidado de uñas, manicura y pedicura.', icon: Hand },
+  { id: 'hairdresser', name: 'Peluquería', description: 'Cortes de pelo, peinados, coloración.', icon: Scissors },
+  { id: 'masseuse', name: 'Masajista', description: 'Masajes terapéuticos y de relajación.', icon: Smile },
+  { id: 'esthetician', name: 'Esteticista', description: 'Tratamientos faciales, depilación y cuidado de la piel.', icon: Wand2 },
 ];
 
 export const mockLocations: string[] = [
@@ -47,6 +49,23 @@ export const mockLocations: string[] = [
   "Vigo, ES",
   "Gijón, ES",
   "A Coruña, ES",
+  "Granada, ES",
+  "San Sebastián, ES",
+  "Santander, ES",
+  "Pamplona, ES",
+  "Salamanca, ES",
+  "Toledo, ES",
+  "Lisbon, PT",
+  "Porto, PT",
+  "Paris, FR",
+  "Rome, IT",
+  "Berlin, DE",
+  "London, UK",
+  "Amsterdam, NL",
+  "New York, US",
+  "Los Angeles, US",
+  "Buenos Aires, AR",
+  "Mexico City, MX",
   "Online"
 ];
 
@@ -61,48 +80,6 @@ const commonReviews: Review[] = [
 
 
 export const mockProviders: Provider[] = [
-  {
-    id: '1',
-    name: 'Juan Fontanería',
-    serviceCategory: 'Fontanería',
-    description: 'Fontanero experimentado con más de 10 años en el sector. Servicios residenciales y comerciales.',
-    location: 'Madrid, ES',
-    rating: 4.8,
-    reviewCount: 120,
-    servicesOffered: [
-      { name: 'Reparación de Fugas', price: 80 },
-      { name: 'Limpieza de Desagües', price: 100 },
-      { name: 'Instalación de Grifos', price: 150 },
-    ],
-    hourlyRate: 75,
-    certifications: ['Carnet de Fontanero #12345', 'Técnico Certificado en Calentadores'],
-    availability: 'Lun-Sáb, 8am-6pm',
-    experienceYears: 10,
-    profileImageUrl: 'https://placehold.co/100x100.png',
-    galleryImageUrls: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
-    reviews: commonReviews.slice(0,3).map(r => ({...r, id: `p1-${r.id}`, userName: r.userName.replace('Smith', 'García').replace('Johnson', 'López')})),
-  },
-  {
-    id: '2',
-    name: 'Chispas Eléctricas S.L.',
-    serviceCategory: 'Electricidad',
-    description: 'Tu experto local para todas las necesidades eléctricas. Rápido, fiable y seguro.',
-    location: 'Barcelona, ES',
-    rating: 4.5,
-    reviewCount: 85,
-    servicesOffered: [
-      { name: 'Reparación de Enchufes', price: 60 },
-      { name: 'Instalación de Lámparas', price: 90 },
-      { name: 'Cambio de Automáticos', price: 200 },
-    ],
-    hourlyRate: 80,
-    certifications: ['Electricista Autorizado #E67890', 'Certificado Seguridad Hogar'],
-    availability: 'Servicio Urgencias 24/7',
-    experienceYears: 8,
-    profileImageUrl: 'https://placehold.co/100x100.png',
-    galleryImageUrls: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
-    reviews: commonReviews.slice(1,4).map(r => ({...r, id: `p2-${r.id}`, userName: r.userName.replace('Williams', 'Martínez')})),
-  },
   {
     id: '3',
     name: 'Jardines Verdes',
@@ -164,29 +141,94 @@ export const mockProviders: Provider[] = [
     profileImageUrl: 'https://placehold.co/100x100.png',
     galleryImageUrls: [],
     reviews: commonReviews.slice(3,5).map(r => ({...r, id: `p5-${r.id}`})),
+  },
+  {
+    id: '6',
+    name: 'Uñas Divinas por Sara',
+    serviceCategory: 'Manicurista',
+    description: 'Manicuras, pedicuras y diseños de uñas creativos. Productos de alta calidad y ambiente relajante.',
+    location: 'Madrid, ES',
+    rating: 4.8,
+    reviewCount: 75,
+    servicesOffered: [
+      { name: 'Manicura Clásica', price: 25 },
+      { name: 'Manicura Semipermanente', price: 35 },
+      { name: 'Pedicura Completa', price: 40 },
+    ],
+    hourlyRate: undefined, // Price per service
+    certifications: ['Técnico de Uñas Certificado', 'Especialista en Nail Art'],
+    availability: 'Mar-Sáb, 10am-7pm',
+    experienceYears: 6,
+    profileImageUrl: 'https://placehold.co/100x100.png',
+    galleryImageUrls: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
+    reviews: commonReviews.slice(0,3).map(r => ({...r, id: `p6-${r.id}`, userName: r.userName.replace('Smith', 'Ruiz')})),
+  },
+  {
+    id: '7',
+    name: 'EstiloTotal Peluqueros',
+    serviceCategory: 'Peluquería',
+    description: 'Expertos en corte, color y peinado para hombres y mujeres. Asesoramiento personalizado.',
+    location: 'Barcelona, ES',
+    rating: 4.7,
+    reviewCount: 110,
+    servicesOffered: [
+      { name: 'Corte Mujer', price: 45 },
+      { name: 'Corte Hombre', price: 25 },
+      { name: 'Coloración Completa', price: 80 },
+    ],
+    hourlyRate: undefined,
+    certifications: ['Maestro Peluquero', 'Colorista Profesional Certificado'],
+    availability: 'Lun-Vie, 9am-8pm; Sáb 9am-2pm',
+    experienceYears: 15,
+    profileImageUrl: 'https://placehold.co/100x100.png',
+    galleryImageUrls: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
+    reviews: commonReviews.slice(1,4).map(r => ({...r, id: `p7-${r.id}`, userName: r.userName.replace('Johnson', 'Gómez')})),
+  },
+  {
+    id: '8',
+    name: 'Bienestar Holístico por Laura',
+    serviceCategory: 'Esteticista',
+    description: 'Tratamientos faciales personalizados, depilación y masajes relajantes. Productos naturales y orgánicos.',
+    location: 'Valencia, ES',
+    rating: 4.9,
+    reviewCount: 90,
+    servicesOffered: [
+      { name: 'Limpieza Facial Profunda', price: 60 },
+      { name: 'Masaje Relajante (60 min)', price: 70 },
+      { name: 'Depilación Piernas Completas', price: 35 },
+    ],
+    hourlyRate: undefined,
+    certifications: ['Esteticista Titulada', 'Terapeuta Holístico Certificado'],
+    availability: 'Cita Previa',
+    experienceYears: 8,
+    profileImageUrl: 'https://placehold.co/100x100.png',
+    galleryImageUrls: ['https://placehold.co/600x400.png'],
+    reviews: commonReviews.slice(2,5).map(r => ({...r, id: `p8-${r.id}`, userName: r.userName.replace('Williams', 'Díaz')})),
   }
 ];
 
 export const mockBookings: Booking[] = [
-  { id: 'b1', providerId: '1', providerName: 'Juan Fontanería', serviceName: 'Reparación de Fugas', dateTime: new Date(Date.now() + 86400000 * 3).toISOString(), status: 'confirmed' },
-  { id: 'b2', providerId: '3', providerName: 'Jardines Verdes', serviceName: 'Corte de Césped', dateTime: new Date(Date.now() + 86400000 * 7).toISOString(), status: 'pending' },
+  { id: 'b1', providerId: '3', providerName: 'Jardines Verdes', serviceName: 'Corte de Césped', dateTime: new Date(Date.now() + 86400000 * 3).toISOString(), status: 'confirmed' },
+  { id: 'b2', providerId: '6', providerName: 'Uñas Divinas por Sara', serviceName: 'Manicura Semipermanente', dateTime: new Date(Date.now() + 86400000 * 7).toISOString(), status: 'pending' },
   { id: 'b3', providerId: '4', providerName: 'Limpiezas BrilloTotal', serviceName: 'Limpieza Hogar Estándar', dateTime: new Date(Date.now() - 86400000 * 2).toISOString(), status: 'completed' },
 ];
 
 export const mockConversations: ChatConversation[] = [
-  { id: 'convo1', participantName: 'Juan Fontanería', participantAvatar: 'https://placehold.co/40x40.png', lastMessage: 'Sí, puedo ir mañana a las 14h.', lastMessageTimestamp: Date.now() - 3600000, unreadCount: 0 },
-  { id: 'convo2', participantName: 'Jardines Verdes', participantAvatar: 'https://placehold.co/40x40.png', lastMessage: '¡Tu jardín luce genial!', lastMessageTimestamp: Date.now() - 86400000, unreadCount: 1 },
+  { id: 'convo3', participantName: 'Jardines Verdes', participantAvatar: 'https://placehold.co/40x40.png', lastMessage: '¡Tu jardín luce genial!', lastMessageTimestamp: Date.now() - 86400000, unreadCount: 1 },
+  { id: 'convo6', participantName: 'Uñas Divinas por Sara', participantAvatar: 'https://placehold.co/40x40.png', lastMessage: 'Confirmado para el martes.', lastMessageTimestamp: Date.now() - 3600000 * 5, unreadCount: 0 },
 ];
 
 export const mockMessages: { [conversationId: string]: ChatMessage[] } = {
-  'convo1': [
-    { id: 'msg1', senderId: 'user', receiverId: '1', text: 'Hola, ¿estás disponible para una reparación de fuga mañana?', timestamp: Date.now() - 7200000 },
-    { id: 'msg2', senderId: '1', receiverId: 'user', text: '¡Hola! Sí, puedo ir mañana a las 14h. ¿Te viene bien?', timestamp: Date.now() - 3600000 },
+  'convo3': [
+    { id: 'msg3_1', senderId: '3', receiverId: 'user', text: 'Acabo de terminar tu césped. ¡Luce genial!', timestamp: Date.now() - 86400000 * 2 },
+    { id: 'msg3_2', senderId: 'user', receiverId: '3', text: '¡Muchas gracias! Dejaré una reseña.', timestamp: Date.now() - 86400000 },
+    { id: 'msg3_3', senderId: '3', receiverId: 'user', text: 'Genial, ¡lo agradezco!', timestamp: Date.now() - 72000000, isRead: false },
   ],
-  'convo2': [
-    { id: 'msg3', senderId: '3', receiverId: 'user', text: 'Acabo de terminar tu césped. ¡Luce genial!', timestamp: Date.now() - 86400000 * 2 },
-    { id: 'msg4', senderId: 'user', receiverId: '3', text: '¡Muchas gracias! Dejaré una reseña.', timestamp: Date.now() - 86400000 },
-    { id: 'msg5', senderId: '3', receiverId: 'user', text: 'Genial, ¡lo agradezco!', timestamp: Date.now() - 72000000, isRead: false },
+  'convo6': [
+    { id: 'msg6_1', senderId: 'user', receiverId: '6', text: 'Hola Sara, ¿tienes hueco para una semipermanente la semana que viene?', timestamp: Date.now() - 3600000 * 10 },
+    { id: 'msg6_2', senderId: '6', receiverId: 'user', text: '¡Hola! Sí, el martes a las 16h te iría bien?', timestamp: Date.now() - 3600000 * 8 },
+    { id: 'msg6_3', senderId: 'user', receiverId: '6', text: 'Perfecto, gracias!', timestamp: Date.now() - 3600000 * 6 },
+    { id: 'msg6_4', senderId: '6', receiverId: 'user', text: 'Confirmado para el martes.', timestamp: Date.now() - 3600000 * 5 },
   ],
 };
 
@@ -218,7 +260,3 @@ export const getServiceIconByName = (serviceName: string): React.ComponentType<a
   const service = mockServices.find(s => s.name.toLowerCase() === serviceName.toLowerCase());
   return service?.icon || Briefcase; // Fallback to a generic icon
 };
-
-    
-
-    

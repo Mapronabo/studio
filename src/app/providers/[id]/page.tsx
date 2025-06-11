@@ -1,4 +1,5 @@
-import { mockProviders } from '@/data/mockData';
+
+import { mockProviders, mockServices } from '@/data/mockData'; // Import global mockServices
 import type { Provider } from '@/types';
 import { analyzeProviderReputation, type AnalyzeProviderReputationOutput } from '@/ai/flows/analyze-provider-reputation';
 import Image from 'next/image';
@@ -36,7 +37,8 @@ export default async function ProviderProfilePage({ params }: ProviderProfilePag
     isLoadingReputation = false;
   }
 
-  const ServiceIcon = mockServices.find(s => s.name === provider.serviceCategory)?.icon || Briefcase;
+  // Use the globally imported mockServices to find the icon
+  const ServiceIcon = mockServices.find(s => s.name.toLowerCase() === provider.serviceCategory.toLowerCase())?.icon || Briefcase;
 
   return (
     <div className="space-y-8">
@@ -182,11 +184,3 @@ export default async function ProviderProfilePage({ params }: ProviderProfilePag
     </div>
   );
 }
-
-// Minimal mockServices for icons, ensure it aligns with mockData.ts
-const mockServices = [
-  { name: 'Plumbing', icon: Briefcase },
-  { name: 'Electricity', icon: Briefcase },
-  { name: 'Gardening', icon: Briefcase },
-  // ... add other service types with their icons
-];

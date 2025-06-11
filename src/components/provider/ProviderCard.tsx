@@ -1,3 +1,4 @@
+
 "use client";
 
 import type { Provider } from '@/types';
@@ -6,7 +7,7 @@ import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Star, MapPin, Briefcase, Wrench, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen } from 'lucide-react';
+import { Star, MapPin, Briefcase, Wrench, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, Hammer, Truck, Laptop, Dumbbell, Camera, Music, ShieldCheck, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark, Hand, Scissors, Smile, Wand2 } from 'lucide-react';
 
 interface ProviderCardProps {
   provider: Provider;
@@ -14,13 +15,33 @@ interface ProviderCardProps {
 
 // Minimal mockServices for ProviderCard, icons must be imported from lucide-react
 const localMockServices = [
-  { name: 'Plumbing', icon: Wrench },
-  { name: 'Electricity', icon: Zap },
-  { name: 'Gardening', icon: Sprout },
-  { name: 'Cleaning', icon: Sparkles },
-  { name: 'Painting', icon: PaintRoller },
-  { name: 'Pet Care', icon: Dog },
-  { name: 'Tutoring', icon: BookOpen },
+  { name: 'Jardinería', icon: Sprout },
+  { name: 'Limpieza', icon: Sparkles },
+  { name: 'Pintura', icon: PaintRoller },
+  { name: 'Cuidado de Mascotas', icon: Dog },
+  { name: 'Clases Particulares', icon: BookOpen },
+  { name: 'Manitas', icon: Hammer },
+  { name: 'Mudanzas', icon: Truck },
+  { name: 'Soporte Técnico', icon: Laptop },
+  { name: 'Reparación de Electrodomésticos', icon: Wrench },
+  { name: 'Entrenador Personal', icon: Dumbbell },
+  { name: 'Fotografía', icon: Camera },
+  { name: 'Clases de Música', icon: Music },
+  { name: 'Seguridad del Hogar', icon: ShieldCheck },
+  { name: 'Catering', icon: ChefHat },
+  { name: 'Servicios Legales', icon: Scale },
+  { name: 'Cuidado de Niños', icon: Baby },
+  { name: 'Carpintería', icon: CarpentrySquare },
+  { name: 'Servicios de DJ', icon: Disc3 },
+  { name: 'Planificación de Eventos', icon: CalendarCheck2 },
+  { name: 'Traducción de Idiomas', icon: Languages },
+  { name: 'Diseño Gráfico', icon: Palette },
+  { name: 'Desarrollo Web', icon: Code2 },
+  { name: 'Asesoría Fiscal', icon: Landmark },
+  { name: 'Manicurista', icon: Hand },
+  { name: 'Peluquería', icon: Scissors },
+  { name: 'Masajista', icon: Smile },
+  { name: 'Esteticista', icon: Wand2 },
   { name: 'Default', icon: Briefcase}
 ];
 

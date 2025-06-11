@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from '@/components/ui/badge';
 import { mockServices, mockProviders, mockFaqs, mockLocations } from '@/data/mockData'; 
-import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock, Hammer, Truck, Laptop, Wrench, Dumbbell, Camera, Music, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark, Check, ChevronsUpDown } from 'lucide-react';
+import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock, Hammer, Truck, Laptop, Wrench, Dumbbell, Camera, Music, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark, Check, ChevronsUpDown, Hand, Scissors, Smile, Wand2 } from 'lucide-react';
 import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
@@ -22,8 +22,6 @@ import { cn } from "@/lib/utils";
 
 const popularCategories = mockServices.map(service => {
   const iconMap: { [key: string]: React.ComponentType<any> } = {
-    'fontanería': Wrench,
-    'electricidad': Zap,
     'jardinería': Sprout,
     'limpieza': Sparkles,
     'pintura': PaintRoller,
@@ -47,6 +45,10 @@ const popularCategories = mockServices.map(service => {
     'diseño gráfico': Palette,
     'desarrollo web': Code2,
     'asesoría fiscal': Landmark,
+    'manicurista': Hand,
+    'peluquería': Scissors,
+    'masajista': Smile,
+    'esteticista': Wand2,
   };
   const IconComponent = iconMap[service.name.toLowerCase()] || Briefcase;
   return { ...service, icon: IconComponent };
@@ -93,7 +95,7 @@ const testimonials = [
     avatarUrl: 'https://placehold.co/80x80.png',
     avatarAiHint: 'woman portrait',
     avatarFallback: 'LM',
-    quote: '¡ServiMatch me salvó! Encontré un fontanero de urgencia en minutos y el trabajo fue impecable. ¡Totalmente recomendado!',
+    quote: '¡ServiMatch me salvó! Encontré un jardinero de urgencia en minutos y el trabajo fue impecable. ¡Totalmente recomendado!',
     rating: 5,
   },
   {
@@ -123,7 +125,7 @@ const testimonials = [
     avatarUrl: 'https://placehold.co/80x80.png',
     avatarAiHint: 'man avatar',
     avatarFallback: 'MR',
-    quote: 'La interfaz es muy intuitiva y el proceso de búsqueda es rápido. Encontré un electricista en menos de 5 minutos.',
+    quote: 'La interfaz es muy intuitiva y el proceso de búsqueda es rápido. Encontré un pintor en menos de 5 minutos.',
     rating: 5,
   },
   {
@@ -159,7 +161,7 @@ export default function HomePage() {
           <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto drop-shadow-md">
             Compara precios, reserva al instante y recibe atención de confianza para todas tus necesidades del hogar y más.
           </p>
-          <div className="bg-background/90 p-4 md:p-6 rounded-lg shadow-2xl max-w-3xl mx-auto backdrop-blur-sm">
+          <div className="bg-background/95 p-4 md:p-6 rounded-lg shadow-2xl max-w-3xl mx-auto backdrop-blur-md">
             <div className="grid grid-cols-1 md:grid-cols-[2fr_1.5fr_1fr_auto] gap-3 items-end">
               <div className="relative">
                 <label htmlFor="service-needed" className="block text-sm font-medium text-foreground mb-1 text-left">¿Qué necesitas?</label>
@@ -174,7 +176,7 @@ export default function HomePage() {
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       {selectedService
                         ? mockServices.find((service) => service.id.toLowerCase() === selectedService.toLowerCase())?.name || "Selecciona un servicio"
-                        : "Ej: Fontanero, electricista..."}
+                        : "Ej: Manicurista, peluquero..."}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
@@ -479,4 +481,3 @@ export default function HomePage() {
     </div>
   );
 }
-
