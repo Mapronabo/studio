@@ -166,7 +166,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section id="search-services" className="py-16 md:py-24 flex items-center justify-center">
+      <section id="search-services" className="bg-secondary py-16 md:py-24 flex items-center justify-center">
         <div className="container mx-auto px-4 text-center space-y-8">
           <h1 className="text-4xl md:text-6xl font-headline font-bold text-foreground">
             Encuentra al mejor profesional <span className="text-primary">cerca de ti</span>
