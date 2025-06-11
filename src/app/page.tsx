@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Badge } from '@/components/ui/badge'; // Added this import
+import { Badge } from '@/components/ui/badge';
 import { mockServices, mockProviders, mockFaqs } from '@/data/mockData'; 
 import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock } from 'lucide-react';
 
@@ -80,6 +80,26 @@ const testimonials = [
     quote: 'He usado ServiMatch para todo, desde limpieza hasta clases de guitarra. Siempre encuentro profesionales de confianza y buenos precios.',
     rating: 4,
   },
+  {
+    id: 't4',
+    name: 'Miguel R.',
+    role: 'Nuevo Usuario',
+    avatarUrl: 'https://placehold.co/80x80.png',
+    avatarAiHint: 'man avatar',
+    avatarFallback: 'MR',
+    quote: 'La interfaz es muy intuitiva y el proceso de búsqueda es rápido. Encontré un electricista en menos de 5 minutos.',
+    rating: 5,
+  },
+  {
+    id: 't5',
+    name: 'Sofía L.',
+    role: 'Profesional de Limpieza',
+    avatarUrl: 'https://placehold.co/80x80.png',
+    avatarAiHint: 'woman cleaning professional',
+    avatarFallback: 'SL',
+    quote: 'ServiMatch me ha ayudado a conseguir más clientes en mi área. La comisión es justa y los pagos son puntuales.',
+    rating: 5,
+  }
 ];
 
 
@@ -233,9 +253,9 @@ export default function HomePage() {
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-headline font-semibold text-center mb-12 text-foreground">Lo que dicen nuestros usuarios</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex overflow-x-auto space-x-8 pb-4">
             {testimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="flex flex-col shadow-lg bg-card">
+              <Card key={testimonial.id} className="flex flex-col shadow-lg bg-card min-w-[320px] md:min-w-[380px] flex-shrink-0">
                 <CardContent className="p-6 flex-grow">
                   <div className="flex items-center mb-4">
                     <Avatar className="h-16 w-16 mr-4 border-2 border-primary">
