@@ -194,7 +194,7 @@ export default function HomePage() {
                       variant="outline"
                       role="combobox"
                       aria-expanded={openServicePopover}
-                      className="w-full justify-between pl-10 h-12 text-foreground pr-3"
+                      className="relative w-full justify-between pl-10 h-12 text-foreground pr-3"
                     >
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       {selectedServiceId
@@ -242,7 +242,7 @@ export default function HomePage() {
                       variant="outline"
                       role="combobox"
                       aria-expanded={openLocationPopover}
-                      className="w-full justify-between pl-10 h-12 text-foreground pr-3"
+                      className="relative w-full justify-between pl-10 h-12 text-foreground pr-3"
                     >
                       <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       {selectedLocation
@@ -288,7 +288,7 @@ export default function HomePage() {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-full pl-10 h-12 justify-start text-left font-normal text-foreground",
+                        "relative w-full pl-10 h-12 justify-start text-left font-normal text-foreground",
                         !selectedDate && "text-muted-foreground"
                       )}
                     >
@@ -504,5 +504,7 @@ export default function HomePage() {
     </div>
   );
 }
+
+    
 
     
