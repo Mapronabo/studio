@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Briefcase, UserPlus } from 'lucide-react';
 import { mockServices } from '@/data/mockData';
 import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 export default function RegisterProfessionalPage() {
   const [name, setName] = useState('');
@@ -37,7 +38,8 @@ export default function RegisterProfessionalPage() {
     console.log({ name, email, password, serviceCategory, experience, bio });
     toast({
       title: "Registro Profesional Exitoso (Simulado)",
-      description: `Bienvenido, ${name}! Tu perfil profesional ha sido creado.`,
+      description: `¡Bienvenido, ${name}! Tu perfil profesional ha sido creado. Ahora puedes publicar tus servicios.`,
+      action: <Link href="/publish-service"><ToastAction altText="Publicar un servicio">Publicar Servicio</ToastAction></Link>,
     });
     // Reset form or redirect
     setName('');

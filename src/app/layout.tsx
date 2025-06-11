@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
@@ -55,9 +56,6 @@ export default function RootLayout({
               </Link>
               <Link href="/register/client" passHref>
                 <Button variant="outline" className="text-sm">Registrarse</Button>
-              </Link>
-              <Link href="/publish-service" passHref>
-                <Button className="text-sm bg-accent hover:bg-accent/90 text-accent-foreground">Publicar un servicio</Button>
               </Link>
             </div>
             {/* Mobile Menu Trigger (optional, can be added later) */}
