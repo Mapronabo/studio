@@ -15,9 +15,11 @@ import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Label } from '@/components/ui/label';
 import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 import { cn } from "@/lib/utils";
+import { useRouter } from 'next/navigation';
 
 
 const popularCategories = mockServices.map(service => {
@@ -79,6 +81,7 @@ const howItWorksSteps = [
 ];
 
 const featuredProviders = mockProviders
+  .filter(p => ["Manicurista", "Peluquería", "Esteticista"].includes(p.serviceCategory))
   .sort((a, b) => {
     if (b.rating !== a.rating) {
       return b.rating - a.rating; 
@@ -145,14 +148,34 @@ export default function HomePage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [openLocationPopover, setOpenLocationPopover] = useState(false);
-  const [selectedService, setSelectedService] = useState<string>("");
+  const [selectedServiceId, setSelectedServiceId] = useState<string>(""); 
   const [openServicePopover, setOpenServicePopover] = useState(false);
+  const router = useRouter();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const queryParams = new URLSearchParams();
+    if (selectedServiceId) queryParams.append('serviceId', selectedServiceId);
+    if (selectedLocation) queryParams.append('location', selectedLocation);
+    if (selectedDate) queryParams.append('date', format(selectedDate, 'yyyy-MM-dd'));
+
+    router.push(`/find-providers?${queryParams.toString()}`);
+  };
 
 
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section id="search-services" className="relative h-[50vh] md:h-[60vh] flex items-center justify-center text-white">
+        <Image
+          src="https://placehold.co/1600x900.png"
+          alt="Servicios profesionales diversos"
+          layout="fill"
+          objectFit="cover"
+          className="absolute inset-0 z-0"
+          priority
+          data-ai-hint="happy people service"
+        />
         <div className="absolute inset-0 bg-black/60 z-10"></div>
         <div className="relative z-20 container mx-auto px-4 text-center space-y-8">
           <h1 className="text-4xl md:text-6xl font-headline font-bold drop-shadow-lg">
@@ -162,9 +185,9 @@ export default function HomePage() {
             Compara precios, reserva al instante y recibe atención de confianza para todas tus necesidades del hogar y más.
           </p>
           <div className="bg-background/95 p-4 md:p-6 rounded-lg shadow-2xl max-w-3xl mx-auto backdrop-blur-md">
-            <div className="grid grid-cols-1 md:grid-cols-[2fr_1.5fr_1fr_auto] gap-3 items-end">
+            <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-[2fr_1.5fr_1fr_auto] gap-3 items-end">
               <div className="relative">
-                <label htmlFor="service-needed" className="block text-sm font-medium text-foreground mb-1 text-left">¿Qué necesitas?</label>
+                <Label htmlFor="service-needed" className="block text-sm font-medium text-foreground mb-1 text-left">¿Qué necesitas?</Label>
                  <Popover open={openServicePopover} onOpenChange={setOpenServicePopover}>
                   <PopoverTrigger asChild>
                     <Button
@@ -174,8 +197,8 @@ export default function HomePage() {
                       className="w-full justify-between pl-10 h-12 text-foreground pr-3"
                     >
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                      {selectedService
-                        ? mockServices.find((service) => service.id.toLowerCase() === selectedService.toLowerCase())?.name || "Selecciona un servicio"
+                      {selectedServiceId
+                        ? mockServices.find((service) => service.id.toLowerCase() === selectedServiceId.toLowerCase())?.name || "Selecciona un servicio"
                         : "Ej: Manicurista, peluquero..."}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
@@ -192,14 +215,14 @@ export default function HomePage() {
                               value={service.name} 
                               onSelect={(currentValue) => {
                                 const serviceId = mockServices.find(s => s.name.toLowerCase() === currentValue.toLowerCase())?.id || "";
-                                setSelectedService(serviceId.toLowerCase() === selectedService ? "" : serviceId.toLowerCase());
+                                setSelectedServiceId(serviceId.toLowerCase() === selectedServiceId ? "" : serviceId.toLowerCase());
                                 setOpenServicePopover(false);
                               }}
                             >
                               <Check
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  selectedService === service.id.toLowerCase() ? "opacity-100" : "opacity-0"
+                                  selectedServiceId === service.id.toLowerCase() ? "opacity-100" : "opacity-0"
                                 )}
                               />
                               {service.name}
@@ -212,7 +235,7 @@ export default function HomePage() {
                 </Popover>
               </div>
               <div className="relative">
-                <label htmlFor="location" className="block text-sm font-medium text-foreground mb-1 text-left">Ubicación</label>
+                <Label htmlFor="location" className="block text-sm font-medium text-foreground mb-1 text-left">Ubicación</Label>
                 <Popover open={openLocationPopover} onOpenChange={setOpenLocationPopover}>
                   <PopoverTrigger asChild>
                     <Button
@@ -259,7 +282,7 @@ export default function HomePage() {
                 </Popover>
               </div>
               <div className="relative">
-                <label htmlFor="date" className="block text-sm font-medium text-foreground mb-1 text-left">Fecha</label>
+                <Label htmlFor="date" className="block text-sm font-medium text-foreground mb-1 text-left">Fecha</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -285,11 +308,11 @@ export default function HomePage() {
                   </PopoverContent>
                 </Popover>
               </div>
-              <Button size="lg" className="h-12 w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base">
+              <Button type="submit" size="lg" className="h-12 w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base">
                 <Search className="mr-2 h-5 w-5 md:hidden" />
                 <span className="hidden md:inline">Buscar</span>
               </Button>
-            </div>
+            </form>
           </div>
         </div>
       </section>
@@ -301,7 +324,7 @@ export default function HomePage() {
           <div className="overflow-hidden py-4">
             <div className="flex gap-6 animate-scroll-x-loop">
               {[...popularCategories, ...popularCategories].map((category, index) => ( 
-                <Link href={`/search?category=${category.id}`} key={`${category.id}-${index}`} passHref>
+                <Link href={`/find-providers?serviceId=${category.id}`} key={`${category.id}-${index}`} passHref>
                   <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card min-w-[160px] md:min-w-[200px] flex-shrink-0 aspect-square">
                     <CardContent className="flex flex-col items-center justify-center space-y-3 h-full">
                       <div className="p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
@@ -340,7 +363,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex justify-between items-center mb-10">
             <h2 className="text-3xl font-headline font-semibold text-foreground">Servicios destacados cerca de ti</h2>
-            <Link href="/search" passHref>
+            <Link href="/find-providers" passHref>
               <Button variant="link" className="text-primary hover:text-primary/80">
                 Ver todos <ChevronRight size={20} className="ml-1" />
               </Button>
@@ -381,7 +404,7 @@ export default function HomePage() {
                   </p>
                   <div className="flex justify-between items-center">
                     <p className="text-lg font-semibold text-primary">
-                      {provider.hourlyRate ? `$${provider.hourlyRate}/hr` : 'Consultar'}
+                      {provider.hourlyRate ? `$${provider.hourlyRate}/hr` : (provider.servicesOffered[0] ? `$${provider.servicesOffered[0].price}`: 'Consultar')}
                     </p>
                     <Link href={`/providers/${provider.id}#booking`} passHref>
                       <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">Reservar ya</Button>
@@ -481,3 +504,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    

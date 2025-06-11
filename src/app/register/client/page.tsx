@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { UserPlus } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from 'next/navigation';
 
 export default function RegisterClientPage() {
   const [name, setName] = useState('');
@@ -16,32 +17,39 @@ export default function RegisterClientPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       toast({
-        title: "Error",
-        description: "Las contraseñas no coinciden.",
+        title: "Error de Contraseña",
+        description: "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.",
         variant: "destructive",
       });
       return;
     }
-    // Placeholder for actual registration logic
-    console.log({ name, email, password });
+    // Simulate API call for registration
+    console.log("Registering client:", { name, email, password });
     toast({
-      title: "Registro Exitoso (Simulado)",
-      description: `Bienvenido, ${name}! Su cuenta de cliente ha sido creada.`,
+      title: "¡Registro Exitoso!",
+      description: `Bienvenido/a, ${name}! Tu cuenta de cliente ha sido creada. Serás redirigido al inicio.`,
+      variant: "default",
+      duration: 5000,
     });
-    // Reset form or redirect
+    // Reset form
     setName('');
     setEmail('');
     setPassword('');
     setConfirmPassword('');
+    // Redirect to home page after a short delay
+    setTimeout(() => {
+      router.push('/');
+    }, 3000);
   };
 
   return (
-    <div className="flex justify-center items-center min-h-[calc(100vh-200px)]">
+    <div className="flex justify-center items-center min-h-[calc(100vh-200px)] py-8 px-4">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader>
           <div className="flex items-center justify-center mb-2">
@@ -62,11 +70,11 @@ export default function RegisterClientPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Contraseña</Label>
-              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required />
+              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required minLength={6} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
-              <Input id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="••••••••" required />
+              <Input id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="••••••••" required minLength={6} />
             </div>
             <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">Crear Cuenta</Button>
           </form>

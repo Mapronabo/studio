@@ -13,41 +13,59 @@ import { BriefcaseBusiness, UploadCloud, CheckCircle } from 'lucide-react';
 import { mockServices } from '@/data/mockData';
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
-
+import { useRouter } from 'next/navigation';
 
 export default function PublishServicePage() {
   const [serviceName, setServiceName] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
+  const [categoryId, setCategoryId] = useState('');
   const [price, setPrice] = useState('');
   const [priceType, setPriceType] = useState('');
   const [location, setLocation] = useState('');
   const [availability, setAvailability] = useState('');
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder for actual service publishing logic
-    console.log({ serviceName, description, category, price, priceType, location, availability });
+    
+    const selectedCategoryName = mockServices.find(s => s.id === categoryId)?.name || 'Categoría no especificada';
+
+    // Simulate API call for publishing service
+    console.log("Publishing service:", { 
+      serviceName, 
+      description, 
+      category: selectedCategoryName, 
+      price, 
+      priceType, 
+      location, 
+      availability 
+    });
+
     toast({
-      title: "Servicio Publicado (Simulado)",
-      description: `Tu servicio "${serviceName}" ha sido publicado exitosamente.`,
-      action: ( // This action is just a mock, ideally it would link to a "My Services" page
-        <ToastAction altText="Ver mis servicios">Ver mis servicios</ToastAction>
+      title: "¡Servicio Publicado Exitosamente!",
+      description: `Tu servicio "${serviceName}" en la categoría "${selectedCategoryName}" ha sido publicado.`,
+      action: (
+        // This action is just a mock, ideally it would link to a "My Services" or provider dashboard page
+        <ToastAction altText="Ver mis servicios" onClick={() => router.push('/profile')}>Ver mis servicios</ToastAction>
       ),
+      duration: 7000,
     });
     // Reset form
     setServiceName('');
     setDescription('');
-    setCategory('');
+    setCategoryId('');
     setPrice('');
     setPriceType('');
     setLocation('');
     setAvailability('');
+
+    // Optionally redirect
+    // setTimeout(() => router.push('/'), 3000); 
   };
 
   return (
-    <div className="flex justify-center items-center min-h-[calc(100vh-200px)] py-8">
+    <div className="flex justify-center items-center min-h-[calc(100vh-200px)] py-8 px-4">
       <Card className="w-full max-w-lg shadow-xl">
         <CardHeader>
           <div className="flex items-center justify-center mb-2">
@@ -71,7 +89,7 @@ export default function PublishServicePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="category">Categoría del Servicio</Label>
-                <Select value={category} onValueChange={setCategory} required>
+                <Select value={categoryId} onValueChange={setCategoryId} required>
                   <SelectTrigger id="category">
                     <SelectValue placeholder="Selecciona una categoría" />
                   </SelectTrigger>

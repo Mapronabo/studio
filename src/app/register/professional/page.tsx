@@ -1,4 +1,3 @@
-
 // src/app/register/professional/page.tsx
 "use client";
 
@@ -14,17 +13,31 @@ import { Briefcase, UserPlus, UploadCloud } from 'lucide-react';
 import { mockServices } from '@/data/mockData';
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { useRouter } from 'next/navigation';
 
 export default function RegisterProfessionalPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [serviceCategory, setServiceCategory] = useState('');
+  const [serviceCategoryId, setServiceCategoryId] = useState('');
   const [experience, setExperience] = useState('');
   const [bio, setBio] = useState('');
   const [dniPhoto, setDniPhoto] = useState<File | null>(null);
+  const [dniPhotoName, setDniPhotoName] = useState<string>('');
   const { toast } = useToast();
+  const router = useRouter();
+
+  const handleDniPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setDniPhoto(file);
+      setDniPhotoName(file.name);
+    } else {
+      setDniPhoto(null);
+      setDniPhotoName('');
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,35 +52,42 @@ export default function RegisterProfessionalPage() {
     if (!dniPhoto) {
       toast({
         title: "Falta Documento",
-        description: "Por favor, sube una foto de tu DNI.",
+        description: "Por favor, sube una foto de tu DNI/NIE.",
         variant: "destructive",
       });
       return;
     }
-    // Placeholder for actual registration logic
-    console.log({ name, email, password, serviceCategory, experience, bio, dniPhotoName: dniPhoto?.name });
+    // Simulate API call for registration
+    const selectedServiceName = mockServices.find(s => s.id === serviceCategoryId)?.name || 'Categoría no especificada';
+    console.log("Registering professional:", { name, email, password, serviceCategory: selectedServiceName, experience, bio, dniPhotoName: dniPhoto?.name });
+    
     toast({
-      title: "Registro Profesional Exitoso (Simulado)",
-      description: `¡Bienvenido, ${name}! Tu perfil profesional ha sido creado y tu DNI está pendiente de verificación. Ahora puedes publicar tus servicios.`,
+      title: "¡Registro Profesional Exitoso!",
+      description: `¡Bienvenido, ${name}! Tu perfil para ${selectedServiceName} ha sido creado y tu DNI (${dniPhotoName}) está pendiente de verificación. Ahora puedes publicar tus servicios.`,
       action: <Link href="/publish-service"><ToastAction altText="Publicar un servicio">Publicar Servicio</ToastAction></Link>,
-      duration: 7000,
+      duration: 9000,
     });
-    // Reset form or redirect
+    // Reset form
     setName('');
     setEmail('');
     setPassword('');
     setConfirmPassword('');
-    setServiceCategory('');
+    setServiceCategoryId('');
     setExperience('');
     setBio('');
     setDniPhoto(null);
-    // Reset file input visually if possible (difficult with controlled file inputs)
+    setDniPhotoName('');
     const dniInput = document.getElementById('dniPhoto') as HTMLInputElement;
     if (dniInput) dniInput.value = '';
+
+    // Optionally redirect after a delay
+    // setTimeout(() => {
+    //   router.push('/publish-service'); 
+    // }, 3000);
   };
 
   return (
-    <div className="flex justify-center items-center min-h-[calc(100vh-200px)] py-8">
+    <div className="flex justify-center items-center min-h-[calc(100vh-200px)] py-8 px-4">
       <Card className="w-full max-w-lg shadow-xl">
         <CardHeader>
           <div className="flex items-center justify-center mb-2">
@@ -91,17 +111,17 @@ export default function RegisterProfessionalPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="password">Contraseña</Label>
-                <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required />
+                <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required minLength={6}/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
-                <Input id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="••••••••" required />
+                <Input id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="••••••••" required minLength={6}/>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="serviceCategory">Categoría de Servicio Principal</Label>
-                <Select value={serviceCategory} onValueChange={setServiceCategory} required>
+                <Select value={serviceCategoryId} onValueChange={setServiceCategoryId} required>
                   <SelectTrigger id="serviceCategory">
                     <SelectValue placeholder="Selecciona una categoría" />
                   </SelectTrigger>
@@ -130,11 +150,12 @@ export default function RegisterProfessionalPage() {
               <Input 
                 id="dniPhoto" 
                 type="file" 
-                onChange={(e) => setDniPhoto(e.target.files ? e.target.files[0] : null)} 
+                onChange={handleDniPhotoChange} 
                 accept="image/jpeg, image/png, image/webp" 
                 required 
                 className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
               />
+              {dniPhotoName && <p className="text-xs text-muted-foreground pt-1">Archivo seleccionado: {dniPhotoName}</p>}
               <p className="text-xs text-muted-foreground pt-1">Sube una imagen clara del anverso de tu documento de identidad. Necesario para verificación.</p>
             </div>
 
@@ -151,5 +172,3 @@ export default function RegisterProfessionalPage() {
     </div>
   );
 }
-
-    
