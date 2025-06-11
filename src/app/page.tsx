@@ -1,3 +1,4 @@
+
 import { mockProviders, mockServices } from '@/data/mockData';
 import ProviderCard from '@/components/provider/ProviderCard';
 import { Input } from '@/components/ui/input';
@@ -6,13 +7,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, MapPin, Filter } from 'lucide-react';
 
 export default function SearchPage() {
-  // In a real app, providers would be fetched based on search/filter criteria
-  const providers = mockProviders;
-
   return (
     <div className="space-y-8">
       <section className="bg-card p-6 rounded-lg shadow-md">
         <h1 className="text-3xl font-headline font-bold mb-6 text-center text-primary">Find Local Service Professionals</h1>
+        <p className="text-center text-muted-foreground mb-6">
+          Welcome to GlobalHand! Use the search tools below to find skilled professionals for any service you need.
+          Filter by service type, location, and ratings to connect with the best local talent.
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -52,6 +54,8 @@ export default function SearchPage() {
         </div>
       </section>
 
+      {/* Recommended providers section removed */}
+      {/* 
       <section>
         <h2 className="text-2xl font-headline font-semibold mb-6">Available Providers</h2>
         {providers.length > 0 ? (
@@ -63,7 +67,8 @@ export default function SearchPage() {
         ) : (
           <p className="text-center text-muted-foreground">No providers found matching your criteria.</p>
         )}
-      </section>
+      </section> 
+      */}
     </div>
   );
 }
