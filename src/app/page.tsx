@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Badge } from '@/components/ui/badge'; // Added import for Badge
+import { Badge } from '@/components/ui/badge';
 import { mockServices, mockProviders, mockFaqs } from '@/data/mockData'; 
 import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock, Hammer, Truck, Laptop, Wrench, Dumbbell, Camera, Music, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark } from 'lucide-react';
 
@@ -173,7 +173,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-headline font-semibold text-center mb-10 text-foreground">Explora categorías populares</h2>
           <div className="overflow-hidden py-4">
-            <div className="flex gap-6 animate-scroll-x-loop hover:[animation-play-state:paused]">
+            <div className="flex gap-6 animate-scroll-x-loop"> {/* Removed hover:[animation-play-state:paused] */}
               {[...popularCategories, ...popularCategories].map((category, index) => ( 
                 <Link href={`/search?category=${category.id}`} key={`${category.id}-${index}`} passHref>
                   <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card min-w-[160px] md:min-w-[200px] flex-shrink-0">
@@ -355,5 +355,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-    
