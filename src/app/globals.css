@@ -91,3 +91,8 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes scroll-x-loop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* Scrolls one full set of duplicated items */
+}

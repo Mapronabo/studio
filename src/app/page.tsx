@@ -253,29 +253,31 @@ export default function HomePage() {
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-headline font-semibold text-center mb-12 text-foreground">Lo que dicen nuestros usuarios</h2>
-          <div className="flex overflow-x-auto space-x-8 pb-4">
-            {testimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="flex flex-col shadow-lg bg-card min-w-[320px] md:min-w-[380px] flex-shrink-0">
-                <CardContent className="p-6 flex-grow">
-                  <div className="flex items-center mb-4">
-                    <Avatar className="h-16 w-16 mr-4 border-2 border-primary">
-                      <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarAiHint} />
-                      <AvatarFallback className="text-xl">{testimonial.avatarFallback}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="font-semibold font-headline text-lg text-foreground">{testimonial.name}</h3>
-                      <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+          <div className="overflow-hidden py-4"> {/* Outer container for clipping, added py-4 for vertical spacing */}
+            <div className="flex gap-8 animate-scroll-x-loop hover:[animation-play-state:paused]"> {/* Inner container that scrolls */}
+              {[...testimonials, ...testimonials].map((testimonial, index) => ( // Duplicated items
+                <Card key={`${testimonial.id}-${index}`} className="flex flex-col shadow-lg bg-card min-w-[320px] md:min-w-[380px] flex-shrink-0">
+                  <CardContent className="p-6 flex-grow">
+                    <div className="flex items-center mb-4">
+                      <Avatar className="h-16 w-16 mr-4 border-2 border-primary">
+                        <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarAiHint} />
+                        <AvatarFallback className="text-xl">{testimonial.avatarFallback}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h3 className="font-semibold font-headline text-lg text-foreground">{testimonial.name}</h3>
+                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex mb-2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={20} className={` ${i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground'}`} />
-                    ))}
-                  </div>
-                  <p className="text-foreground italic leading-relaxed">"{testimonial.quote}"</p>
-                </CardContent>
-              </Card>
-            ))}
+                    <div className="flex mb-2">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={20} className={` ${i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground'}`} />
+                      ))}
+                    </div>
+                    <p className="text-foreground italic leading-relaxed">"{testimonial.quote}"</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </section>
