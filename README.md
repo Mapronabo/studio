@@ -1,4 +1,4 @@
-# Firebase Studio
+# ServiMatch
 
 This is a NextJS starter in Firebase Studio.
 

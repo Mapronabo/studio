@@ -4,7 +4,7 @@ import NavigationBar from '@/components/layout/NavigationBar';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'GlobalHand',
+  title: 'ServiMatch',
   description: 'Find and book local service providers.',
 };
 
@@ -27,7 +27,7 @@ export default function RootLayout({
             <a href="/" className="mr-6 flex items-center space-x-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-primary"><path d="M12.67 19a1 1 0 0 0 1.41-1.41L9.41 12l4.67-5.59a1 1 0 0 0-1.41-1.41l-5.34 6.42a1 1 0 0 0 0 1.16z"></path><path d="M8.67 19a1 1 0 0 0 1.41-1.41L5.41 12l4.67-5.59a1 1 0 0 0-1.41-1.41l-5.34 6.42a1 1 0 0 0 0 1.16z"></path><path d="M15 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"></path></svg>
               <span className="font-bold font-headline sm:inline-block text-primary">
-                GlobalHand
+                ServiMatch
               </span>
             </a>
           </div>
