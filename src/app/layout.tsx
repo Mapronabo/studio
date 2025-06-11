@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 export const metadata: Metadata = {
   title: 'ServiMatch',
   description: 'Encuentra al mejor profesional cerca de ti. Compara precios, reserva al instante y recibe atención de confianza.',
+  icons: null, // Explicitly set icons to null
 };
 
 const navLinks = [
