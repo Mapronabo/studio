@@ -143,6 +143,8 @@ export default function HomePage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [openLocationPopover, setOpenLocationPopover] = useState(false);
+  const [selectedService, setSelectedService] = useState<string>("");
+  const [openServicePopover, setOpenServicePopover] = useState(false);
 
 
   return (
@@ -161,8 +163,51 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-[2fr_1.5fr_1fr_auto] gap-3 items-end">
               <div className="relative">
                 <label htmlFor="service-needed" className="block text-sm font-medium text-foreground mb-1 text-left">¿Qué necesitas?</label>
-                <Search className="absolute left-3 top-[calc(50%+8px)] transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input id="service-needed" type="text" placeholder="Ej: Fontanero, electricista..." className="pl-10 h-12 text-foreground" />
+                 <Popover open={openServicePopover} onOpenChange={setOpenServicePopover}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={openServicePopover}
+                      className="w-full justify-between pl-10 h-12 text-foreground pr-3"
+                    >
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                      {selectedService
+                        ? mockServices.find((service) => service.id.toLowerCase() === selectedService.toLowerCase())?.name || "Selecciona un servicio"
+                        : "Ej: Fontanero, electricista..."}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                    <Command>
+                      <CommandInput placeholder="Busca un servicio..." />
+                      <CommandList>
+                        <CommandEmpty>No se encontró el servicio.</CommandEmpty>
+                        <CommandGroup>
+                          {mockServices.map((service) => (
+                            <CommandItem
+                              key={service.id}
+                              value={service.name} 
+                              onSelect={(currentValue) => {
+                                const serviceId = mockServices.find(s => s.name.toLowerCase() === currentValue.toLowerCase())?.id || "";
+                                setSelectedService(serviceId.toLowerCase() === selectedService ? "" : serviceId.toLowerCase());
+                                setOpenServicePopover(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  selectedService === service.id.toLowerCase() ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              {service.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
               <div className="relative">
                 <label htmlFor="location" className="block text-sm font-medium text-foreground mb-1 text-left">Ubicación</label>
@@ -434,3 +479,4 @@ export default function HomePage() {
     </div>
   );
 }
+
