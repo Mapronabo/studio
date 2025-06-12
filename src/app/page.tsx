@@ -145,8 +145,6 @@ const testimonials = [
 
 
 export default function HomePage() {
-  const [selectedService, setSelectedService] = useState<Service | undefined>();
-  const [isServicePickerOpen, setIsServicePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<string>("");
@@ -161,7 +159,7 @@ export default function HomePage() {
     const queryParams = new URLSearchParams();
 
     if (userInputServiceText.trim()) {
-      queryParams.append('query', userInputServiceText.trim()); // Pass the original user query
+      queryParams.append('query', userInputServiceText.trim()); 
       try {
         const servicesForAI = mockServices.map(s => ({ id: s.id, name: s.name }));
         const result = await matchService({ userInputText: userInputServiceText, availableServices: servicesForAI });
@@ -171,8 +169,6 @@ export default function HomePage() {
       } catch (error) {
         console.error("Error matching service with AI:", error);
       }
-    } else if (selectedService) { // Fallback if text input is empty but service dropdown was used
-        queryParams.append('serviceId', selectedService.id);
     }
 
 
@@ -319,7 +315,7 @@ export default function HomePage() {
               <div className="flex flex-none gap-6 pr-6">
                 {popularCategories.map((category, index) => ( 
                   <Link href={`/find-providers?serviceId=${category.id}`} key={`${category.id}-set1-${index}`} passHref>
-                    <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card min-w-[160px] md:min-w-[200px] flex-shrink-0 aspect-square">
+                    <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card w-[160px] md:w-[200px] flex-shrink-0 aspect-square">
                       <CardContent className="flex flex-col items-center justify-center space-y-3 h-full">
                         <div className="p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
                           <category.icon className="w-10 h-10 text-primary" />
@@ -334,7 +330,7 @@ export default function HomePage() {
               <div className="flex flex-none gap-6 pr-6">
                 {popularCategories.map((category, index) => ( 
                   <Link href={`/find-providers?serviceId=${category.id}`} key={`${category.id}-set2-${index}`} passHref>
-                    <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card min-w-[160px] md:min-w-[200px] flex-shrink-0 aspect-square">
+                    <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card w-[160px] md:w-[200px] flex-shrink-0 aspect-square">
                       <CardContent className="flex flex-col items-center justify-center space-y-3 h-full">
                         <div className="p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
                           <category.icon className="w-10 h-10 text-primary" />
@@ -548,6 +544,7 @@ export default function HomePage() {
     
 
     
+
 
 
 
