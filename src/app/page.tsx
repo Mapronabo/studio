@@ -9,12 +9,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from '@/components/ui/badge';
-import { mockServices, mockProviders, mockFaqs, mockLocations } from '@/data/mockData'; 
-import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock, Hammer, Truck, Laptop, Wrench, Dumbbell, Camera, Music, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark, Check, ChevronsUpDown, Hand, Scissors, Smile, Wand2 } from 'lucide-react';
+import { mockServices, mockProviders, mockFaqs } from '@/data/mockData'; 
+import { Search, MapPin, CalendarDays, Users, CreditCard, Star, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock, Hammer, Truck, Laptop, Wrench, Dumbbell, Camera, Music, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark, Check, Hand, Scissors, Smile, Wand2 } from 'lucide-react';
 import { useState, useEffect } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Label } from '@/components/ui/label';
 import { format } from "date-fns";
 import { es } from 'date-fns/locale';
@@ -148,7 +147,6 @@ export default function HomePage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<string>("");
-  const [openLocationPopover, setOpenLocationPopover] = useState(false);
   const [userInputServiceText, setUserInputServiceText] = useState<string>("");
   const [isSearchingService, setIsSearchingService] = useState(false);
   const router = useRouter();
@@ -172,7 +170,7 @@ export default function HomePage() {
     }
 
 
-    if (selectedLocation) queryParams.append('location', selectedLocation);
+    if (selectedLocation.trim()) queryParams.append('location', selectedLocation.trim());
     if (selectedDate) queryParams.append('date', format(selectedDate, 'yyyy-MM-dd'));
     
     setIsSearchingService(false);
@@ -209,50 +207,17 @@ export default function HomePage() {
               </div>
               <div className="relative md:col-span-1">
                 <Label htmlFor="location" className="block text-sm font-medium text-foreground mb-1 text-left">Ubicación</Label>
-                <Popover open={openLocationPopover} onOpenChange={setOpenLocationPopover}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={openLocationPopover}
-                      className="relative w-full justify-between pl-10 h-12 text-foreground pr-3"
-                    >
-                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                      {selectedLocation
-                        ? mockLocations.find((loc) => loc.toLowerCase() === selectedLocation.toLowerCase())
-                        : "Ubicación"}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                    <Command>
-                      <CommandInput placeholder="Busca una ubicación..." />
-                      <CommandList>
-                        <CommandEmpty>No se encontró la ubicación.</CommandEmpty>
-                        <CommandGroup>
-                          {mockLocations.map((location) => (
-                            <CommandItem
-                              key={location}
-                              value={location}
-                              onSelect={(currentValue) => {
-                                setSelectedLocation(currentValue.toLowerCase() === selectedLocation ? "" : currentValue.toLowerCase());
-                                setOpenLocationPopover(false);
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  selectedLocation === location.toLowerCase() ? "opacity-100" : "opacity-0"
-                                )}
-                              />
-                              {location}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
+                <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input
+                        id="location"
+                        type="text"
+                        value={selectedLocation}
+                        onChange={(e) => setSelectedLocation(e.target.value)}
+                        placeholder="Ej: Madrid, Valencia..."
+                        className="pl-10 h-12"
+                    />
+                </div>
               </div>
               <div className="relative md:col-span-1">
                 <Label htmlFor="date" className="block text-sm font-medium text-foreground mb-1 text-left">Fecha</Label>
@@ -275,7 +240,7 @@ export default function HomePage() {
                       selected={selectedDate}
                       onSelect={(date) => {
                         setSelectedDate(date);
-                        setIsDatePickerOpen(false);
+                        setIsDatePickerOpen(false); // Close date picker on select
                       }}
                       initialFocus
                       disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() -1)) } 
@@ -544,6 +509,7 @@ export default function HomePage() {
     
 
     
+
 
 
 

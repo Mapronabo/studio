@@ -10,12 +10,15 @@ import ProviderCard from '@/components/provider/ProviderCard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, ListFilter, AlertTriangle, Briefcase } from 'lucide-react';
+import { Search, ListFilter, AlertTriangle, Briefcase, Star, Wallet, Activity } from 'lucide-react';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, SheetFooter, SheetClose } from '@/components/ui/sheet';
+import { Slider } from '@/components/ui/slider';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 
 function FindProvidersContent() {
@@ -26,9 +29,14 @@ function FindProvidersContent() {
   const serviceIdQuery = searchParams.get('serviceId');
   const locationQuery = searchParams.get('location');
   const dateQuery = searchParams.get('date');
-  const userQuery = searchParams.get('query'); // Get the original user query
+  const userQuery = searchParams.get('query'); 
 
-  const [searchTerm, setSearchTerm] = useState(''); // For live text search on this page
+  const [searchTerm, setSearchTerm] = useState(''); 
+  const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
+  const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
+  const [minRating, setMinRating] = useState<number | undefined>(undefined);
+  const [minExperience, setMinExperience] = useState<number | undefined>(undefined);
+
 
   const targetService = serviceIdQuery ? mockServices.find(s => s.id === serviceIdQuery) : null;
   const serviceCategoryName = targetService?.name;
@@ -50,24 +58,18 @@ function FindProvidersContent() {
     if (serviceCategoryName) {
       providers = providers.filter(p => p.serviceCategory.toLowerCase() === serviceCategoryName.toLowerCase());
     }
-    // If userQuery is present and no specific serviceCategory was matched by AI, 
-    // we might want to do a broader text search based on userQuery across provider descriptions or names.
-    // For now, if serviceCategoryName is present, it takes precedence.
-    // If only userQuery is present (no serviceId from AI), this 'if' block below won't run.
-
+    
     if (locationQuery) {
       providers = providers.filter(p => p.location.toLowerCase().includes(locationQuery.toLowerCase()));
     }
     
-    if (searchTerm) { // This is the live filter on the results page
+    if (searchTerm) { 
         providers = providers.filter(p => 
             p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             p.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
             p.servicesOffered.some(so => so.name.toLowerCase().includes(searchTerm.toLowerCase()))
         );
     } else if (userQuery && !serviceCategoryName) { 
-      // If there was an initial user query but no specific service was matched by AI,
-      // perform a one-time broader filter based on that initial query.
       providers = providers.filter(p => 
         p.name.toLowerCase().includes(userQuery.toLowerCase()) ||
         p.description.toLowerCase().includes(userQuery.toLowerCase()) ||
@@ -76,10 +78,21 @@ function FindProvidersContent() {
       );
     }
 
+    // Apply advanced filters
+    if (maxPrice !== undefined) {
+      providers = providers.filter(p => p.hourlyRate !== undefined && p.hourlyRate <= maxPrice);
+    }
+    if (minRating !== undefined) {
+      providers = providers.filter(p => p.rating >= minRating);
+    }
+    if (minExperience !== undefined) {
+      providers = providers.filter(p => p.experienceYears >= minExperience);
+    }
+
 
     setFilteredProviders(providers);
     setIsLoading(false);
-  }, [serviceCategoryName, locationQuery, dateQuery, searchTerm, userQuery]);
+  }, [serviceCategoryName, locationQuery, dateQuery, searchTerm, userQuery, maxPrice, minRating, minExperience]);
 
   const displayDate = dateQuery ? format(parseISO(dateQuery), "PPP", { locale: es }) : "cualquier fecha";
 
@@ -96,8 +109,20 @@ function FindProvidersContent() {
   if (locationQuery) descriptionText += ` en '${locationQuery}'`;
   if (dateQuery) descriptionText += ` para el ${displayDate}`;
   else descriptionText += ' para cualquier fecha';
-  descriptionText += ". Usa los filtros para refinar tu búsqueda.";
+  
+  const activeFilterCount = [maxPrice, minRating, minExperience].filter(f => f !== undefined).length;
+  if(activeFilterCount > 0) {
+    descriptionText += `. ${activeFilterCount} filtro(s) activo(s).`;
+  } else {
+    descriptionText += ". Usa los filtros para refinar tu búsqueda.";
+  }
 
+  const handleClearFilters = () => {
+    setMaxPrice(undefined);
+    setMinRating(undefined);
+    setMinExperience(undefined);
+    setIsFilterSheetOpen(false);
+  };
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-8 space-y-8">
@@ -131,7 +156,72 @@ function FindProvidersContent() {
                 </div>
               </div>
               <div className="flex items-end justify-start md:justify-end space-x-2">
-                 <Button variant="outline"><ListFilter className="mr-2" /> Más Filtros (Mock)</Button>
+                 <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
+                    <SheetTrigger asChild>
+                        <Button variant="outline" className="relative">
+                            <ListFilter className="mr-2" /> Más Filtros
+                            {activeFilterCount > 0 && (
+                                <Badge variant="destructive" className="absolute -top-2 -right-2 rounded-full p-1 text-xs h-5 w-5 flex items-center justify-center">
+                                    {activeFilterCount}
+                                </Badge>
+                            )}
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent>
+                        <SheetHeader>
+                        <SheetTitle>Filtros Avanzados</SheetTitle>
+                        <SheetDescription>
+                            Refina tu búsqueda para encontrar al proveedor perfecto.
+                        </SheetDescription>
+                        </SheetHeader>
+                        <div className="grid gap-6 py-6">
+                            <div className="space-y-3">
+                                <Label htmlFor="maxPrice" className="flex items-center"><Wallet className="mr-2 h-4 w-4 text-primary"/>Precio Máximo por Hora: <span className="ml-1 font-semibold">{maxPrice ? `$${maxPrice}` : 'Cualquiera'}</span></Label>
+                                <Slider
+                                id="maxPrice"
+                                defaultValue={[maxPrice || 200]} 
+                                max={200} 
+                                step={10} 
+                                onValueChange={(value) => setMaxPrice(value[0] === 200 && maxPrice === undefined ? undefined : value[0])} // Allow unsetting if slider is at max
+                                />
+                                {maxPrice !== undefined && <Button variant="link" size="sm" className="p-0 h-auto" onClick={() => setMaxPrice(undefined)}>Quitar filtro de precio</Button>}
+                            </div>
+                             <div className="space-y-3">
+                                <Label className="flex items-center"><Star className="mr-2 h-4 w-4 text-primary"/>Valoración Mínima</Label>
+                                <RadioGroup defaultValue={minRating?.toString()} onValueChange={(value) => setMinRating(parseInt(value))}>
+                                {[5, 4, 3, 2, 1].map(rating => (
+                                    <div key={rating} className="flex items-center space-x-2">
+                                    <RadioGroupItem value={rating.toString()} id={`r${rating}`} />
+                                    <Label htmlFor={`r${rating}`} className="flex">
+                                        {Array(rating).fill(0).map((_, i) => <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />)}
+                                        {Array(5 - rating).fill(0).map((_, i) => <Star key={i+rating} className="w-4 h-4 text-muted-foreground" />)}
+                                        <span className="ml-1 text-sm"> y más</span>
+                                    </Label>
+                                    </div>
+                                ))}
+                                </RadioGroup>
+                                {minRating !== undefined && <Button variant="link" size="sm" className="p-0 h-auto" onClick={() => setMinRating(undefined)}>Quitar filtro de valoración</Button>}
+                            </div>
+                            <div className="space-y-3">
+                                <Label htmlFor="minExperience" className="flex items-center"><Activity className="mr-2 h-4 w-4 text-primary"/>Experiencia Mínima (años): <span className="ml-1 font-semibold">{minExperience || 'Cualquiera'}</span></Label>
+                                <Slider 
+                                id="minExperience"
+                                defaultValue={[minExperience || 0]} 
+                                max={20} 
+                                step={1} 
+                                onValueChange={(value) => setMinExperience(value[0] === 0 && minExperience === undefined ? undefined : value[0])} // Allow unsetting if slider is at min
+                                />
+                                {minExperience !== undefined && <Button variant="link" size="sm" className="p-0 h-auto" onClick={() => setMinExperience(undefined)}>Quitar filtro de experiencia</Button>}
+                            </div>
+                        </div>
+                        <SheetFooter className="mt-auto">
+                            <Button variant="outline" onClick={handleClearFilters} className="w-full sm:w-auto">Limpiar Filtros</Button>
+                            <SheetClose asChild>
+                                <Button type="button" className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground">Aplicar</Button>
+                            </SheetClose>
+                        </SheetFooter>
+                    </SheetContent>
+                </Sheet>
               </div>
             </div>
           </div>
@@ -180,3 +270,4 @@ export default function FindProvidersPage() {
     </Suspense>
   );
 }
+
