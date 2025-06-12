@@ -32,7 +32,7 @@ export default function PublishServicePage() {
     const selectedCategoryName = mockServices.find(s => s.id === categoryId)?.name || 'Categoría no especificada';
 
     // Simulate API call for publishing service
-    console.log("Publishing service:", { 
+    console.log("Publishing service (by trabajador):", { 
       serviceName, 
       description, 
       category: selectedCategoryName, 
@@ -44,10 +44,9 @@ export default function PublishServicePage() {
 
     toast({
       title: "¡Servicio Publicado Exitosamente!",
-      description: `Tu servicio "${serviceName}" en la categoría "${selectedCategoryName}" ha sido publicado.`,
+      description: `Tu servicio "${serviceName}" en la categoría "${selectedCategoryName}" ha sido publicado y ahora es visible para los clientes.`,
       action: (
-        // This action is just a mock, ideally it would link to a "My Services" or provider dashboard page
-        <ToastAction altText="Ver mis servicios" onClick={() => router.push('/profile')}>Ver mis servicios</ToastAction>
+        <ToastAction altText="Ver mis servicios" onClick={() => router.push('/profile')}>Ver mi Perfil</ToastAction>
       ),
       duration: 7000,
     });
@@ -60,8 +59,8 @@ export default function PublishServicePage() {
     setLocation('');
     setAvailability('');
 
-    // Optionally redirect
-    // setTimeout(() => router.push('/'), 3000); 
+    // Optionally redirect to a "my services" page or profile, for now, we reset the form
+    // setTimeout(() => router.push('/profile'), 3000); // Example redirect
   };
 
   return (
@@ -72,13 +71,13 @@ export default function PublishServicePage() {
             <UploadCloud className="w-10 h-10 mr-3 text-primary" />
             <CardTitle className="text-2xl font-headline">Publica tu Servicio</CardTitle>
           </div>
-          <CardDescription className="text-center">Describe el servicio que ofreces para que los clientes puedan encontrarte.</CardDescription>
+          <CardDescription className="text-center">Describe el servicio que ofreces para que los clientes puedan encontrarte. Este servicio será tu "anuncio".</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="serviceName">Nombre del Servicio</Label>
-              <Input id="serviceName" value={serviceName} onChange={(e) => setServiceName(e.target.value)} placeholder="Ej: Reparación de tuberías, Clase de guitarra" required />
+              <Label htmlFor="serviceName">Nombre del Servicio (Anuncio)</Label>
+              <Input id="serviceName" value={serviceName} onChange={(e) => setServiceName(e.target.value)} placeholder="Ej: Manicura Completa con Diseño, Corte de Pelo Moderno" required />
             </div>
 
             <div className="space-y-2">
@@ -135,12 +134,15 @@ export default function PublishServicePage() {
 
             <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground flex items-center">
               <CheckCircle className="mr-2 h-5 w-5" />
-              Publicar Servicio
+              Publicar Servicio (Anuncio)
             </Button>
           </form>
         </CardContent>
          <CardFooter className="flex flex-col items-center space-y-2 pt-6">
-          <Link href="/" className="text-sm text-muted-foreground hover:text-primary">Volver al inicio</Link>
+           <p className="text-sm text-muted-foreground">
+            ¿Quieres ver tu perfil? <Link href="/profile" className="font-medium text-primary hover:underline">Ir a mi Perfil</Link>
+          </p>
+          <Link href="/" className="text-sm text-muted-foreground hover:text-primary mt-2">Volver al inicio</Link>
         </CardFooter>
       </Card>
     </div>

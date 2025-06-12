@@ -30,10 +30,10 @@ export default function RegisterClientPage() {
       return;
     }
     // Simulate API call for registration
-    console.log("Registering client:", { name, email, password });
+    console.log("Registering client (contratador):", { name, email, password });
     toast({
-      title: "¡Registro Exitoso!",
-      description: `Bienvenido/a, ${name}! Tu cuenta de cliente ha sido creada. Serás redirigido al inicio.`,
+      title: "¡Cuenta de Cliente Creada!",
+      description: `Bienvenido/a, ${name}! Tu cuenta para contratar servicios ha sido creada. Serás redirigido al inicio.`,
       variant: "default",
       duration: 5000,
     });
@@ -56,7 +56,7 @@ export default function RegisterClientPage() {
             <UserPlus className="w-10 h-10 mr-3 text-primary" />
             <CardTitle className="text-2xl font-headline">Registro de Cliente</CardTitle>
           </div>
-          <CardDescription className="text-center">Crea tu cuenta para empezar a buscar servicios.</CardDescription>
+          <CardDescription className="text-center">Crea tu cuenta para empezar a buscar y contratar servicios.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -76,14 +76,17 @@ export default function RegisterClientPage() {
               <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
               <Input id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="••••••••" required minLength={6} />
             </div>
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">Crear Cuenta</Button>
+            <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">Crear Cuenta de Cliente</Button>
           </form>
         </CardContent>
         <CardFooter className="flex flex-col items-center space-y-2 pt-6">
           <p className="text-sm text-muted-foreground">
             ¿Ya tienes una cuenta? <Link href="/login" className="font-medium text-primary hover:underline">Inicia Sesión</Link>
           </p>
-          <Link href="/" className="text-sm text-muted-foreground hover:text-primary">Volver al inicio</Link>
+           <p className="text-sm text-muted-foreground">
+            ¿Quieres ofrecer servicios? <Link href="/register/professional" className="font-medium text-primary hover:underline">Regístrate como Profesional</Link>
+          </p>
+          <Link href="/" className="text-sm text-muted-foreground hover:text-primary mt-2">Volver al inicio</Link>
         </CardFooter>
       </Card>
     </div>

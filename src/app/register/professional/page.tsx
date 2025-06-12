@@ -51,20 +51,20 @@ export default function RegisterProfessionalPage() {
     }
     if (!dniPhoto) {
       toast({
-        title: "Falta Documento",
-        description: "Por favor, sube una foto de tu DNI/NIE.",
+        title: "Falta Documento de Identidad",
+        description: "Por favor, sube una foto de tu DNI/NIE para completar el registro.",
         variant: "destructive",
       });
       return;
     }
     // Simulate API call for registration
     const selectedServiceName = mockServices.find(s => s.id === serviceCategoryId)?.name || 'Categoría no especificada';
-    console.log("Registering professional:", { name, email, password, serviceCategory: selectedServiceName, experience, bio, dniPhotoName: dniPhoto?.name });
+    console.log("Registering professional (trabajador):", { name, email, password, serviceCategory: selectedServiceName, experience, bio, dniPhotoName: dniPhoto?.name });
     
     toast({
-      title: "¡Registro Profesional Exitoso!",
-      description: `¡Bienvenido, ${name}! Tu perfil para ${selectedServiceName} ha sido creado y tu DNI (${dniPhotoName}) está pendiente de verificación. Ahora puedes publicar tus servicios.`,
-      action: <Link href="/publish-service"><ToastAction altText="Publicar un servicio">Publicar Servicio</ToastAction></Link>,
+      title: "¡Perfil Profesional Creado!",
+      description: `¡Bienvenido, ${name}! Tu perfil para ofrecer servicios de "${selectedServiceName}" ha sido creado. Tu DNI (${dniPhotoName}) está pendiente de verificación. Ahora puedes publicar tus servicios.`,
+      action: <ToastAction altText="Publicar un servicio" onClick={() => router.push('/publish-service')}>Publicar Servicio</ToastAction>,
       duration: 9000,
     });
     // Reset form
@@ -81,9 +81,9 @@ export default function RegisterProfessionalPage() {
     if (dniInput) dniInput.value = '';
 
     // Optionally redirect after a delay
-    // setTimeout(() => {
-    //   router.push('/publish-service'); 
-    // }, 3000);
+    setTimeout(() => {
+      router.push('/publish-service'); 
+    }, 3000); // Redirect after 3 seconds to allow toast to be seen
   };
 
   return (
@@ -94,7 +94,7 @@ export default function RegisterProfessionalPage() {
             <Briefcase className="w-10 h-10 mr-3 text-primary" />
             <CardTitle className="text-2xl font-headline">Registro de Profesional</CardTitle>
           </div>
-          <CardDescription className="text-center">Únete a nuestra red de profesionales y ofrece tus servicios.</CardDescription>
+          <CardDescription className="text-center">Únete a nuestra red de profesionales y ofrece tus servicios. Se requiere DNI/NIE para verificación.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -143,9 +143,9 @@ export default function RegisterProfessionalPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="dniPhoto" className="flex items-center">
+              <Label htmlFor="dniPhoto" className="flex items-center font-medium">
                 <UploadCloud className="w-5 h-5 mr-2 text-primary" />
-                Foto de DNI/NIE (Anverso)
+                Foto de DNI/NIE (Anverso) - Requerido
               </Label>
               <Input 
                 id="dniPhoto" 
@@ -156,7 +156,7 @@ export default function RegisterProfessionalPage() {
                 className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
               />
               {dniPhotoName && <p className="text-xs text-muted-foreground pt-1">Archivo seleccionado: {dniPhotoName}</p>}
-              <p className="text-xs text-muted-foreground pt-1">Sube una imagen clara del anverso de tu documento de identidad. Necesario para verificación.</p>
+              <p className="text-xs text-muted-foreground pt-1">Sube una imagen clara del anverso de tu documento de identidad. Necesario para verificación y seguridad de la plataforma.</p>
             </div>
 
             <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">Crear Perfil Profesional</Button>
@@ -166,7 +166,10 @@ export default function RegisterProfessionalPage() {
           <p className="text-sm text-muted-foreground">
             ¿Ya tienes una cuenta? <Link href="/login" className="font-medium text-primary hover:underline">Inicia Sesión</Link>
           </p>
-           <Link href="/" className="text-sm text-muted-foreground hover:text-primary">Volver al inicio</Link>
+          <p className="text-sm text-muted-foreground">
+            ¿Quieres contratar servicios? <Link href="/register/client" className="font-medium text-primary hover:underline">Regístrate como Cliente</Link>
+          </p>
+           <Link href="/" className="text-sm text-muted-foreground hover:text-primary mt-2">Volver al inicio</Link>
         </CardFooter>
       </Card>
     </div>
