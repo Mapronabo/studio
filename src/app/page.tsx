@@ -174,7 +174,7 @@ export default function HomePage() {
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Compara precios, reserva al instante y recibe atención de confianza para todas tus necesidades del hogar y más.
           </p>
-          <div className="bg-card border p-6 md:p-8 rounded-xl shadow-2xl max-w-4xl mx-auto backdrop-blur-lg">
+          <div className="bg-card border p-6 md:p-8 rounded-xl shadow-2xl max-w-4xl mx-auto backdrop-blur-lg bg-background/95">
             <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
               <div className="relative">
                 <Label htmlFor="service-needed" className="block text-sm font-medium text-foreground mb-1 text-left">¿Qué necesitas?</Label>
@@ -188,8 +188,8 @@ export default function HomePage() {
                     >
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       {selectedServiceId
-                        ? mockServices.find((service) => service.id.toLowerCase() === selectedServiceId.toLowerCase())?.name || "Selecciona un servicio"
-                        : "Ej: Manicurista, peluquero..."}
+                        ? mockServices.find((service) => service.id.toLowerCase() === selectedServiceId.toLowerCase())?.name
+                        : "Servicio"}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
@@ -236,8 +236,8 @@ export default function HomePage() {
                     >
                       <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       {selectedLocation
-                        ? mockLocations.find((loc) => loc.toLowerCase() === selectedLocation.toLowerCase()) || "Selecciona ubicación"
-                        : "Selecciona ubicación"}
+                        ? mockLocations.find((loc) => loc.toLowerCase() === selectedLocation.toLowerCase())
+                        : "Ubicación"}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
@@ -283,7 +283,7 @@ export default function HomePage() {
                       )}
                     >
                       <CalendarDays className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                      {selectedDate ? format(selectedDate, "PPP", { locale: es }) : <span>Cuando lo necesites</span>}
+                      {selectedDate ? format(selectedDate, "PPP", { locale: es }) : <span>Fecha</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -298,7 +298,7 @@ export default function HomePage() {
                   </PopoverContent>
                 </Popover>
               </div>
-              <Button type="submit" size="lg" className="h-12 w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base">
+              <Button type="submit" size="lg" className="h-12 w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base md:inline">
                 <Search className="mr-2 h-5 w-5" />
                 <span className="inline">Buscar</span>
               </Button>
@@ -496,4 +496,6 @@ export default function HomePage() {
 }
     
     
+    
+
     
