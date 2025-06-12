@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from '@/components/ui/textarea';
-import { Briefcase, UserPlus, UploadCloud } from 'lucide-react';
+import { Briefcase, UserPlus, UploadCloud, Camera } from 'lucide-react';
 import { mockServices } from '@/data/mockData';
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -23,19 +23,19 @@ export default function RegisterProfessionalPage() {
   const [serviceCategoryId, setServiceCategoryId] = useState('');
   const [experience, setExperience] = useState('');
   const [bio, setBio] = useState('');
-  const [dniPhoto, setDniPhoto] = useState<File | null>(null);
-  const [dniPhotoName, setDniPhotoName] = useState<string>('');
+  const [selfieWithDni, setSelfieWithDni] = useState<File | null>(null);
+  const [selfieWithDniName, setSelfieWithDniName] = useState<string>('');
   const { toast } = useToast();
   const router = useRouter();
 
-  const handleDniPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelfieWithDniChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setDniPhoto(file);
-      setDniPhotoName(file.name);
+      setSelfieWithDni(file);
+      setSelfieWithDniName(file.name);
     } else {
-      setDniPhoto(null);
-      setDniPhotoName('');
+      setSelfieWithDni(null);
+      setSelfieWithDniName('');
     }
   };
 
@@ -49,21 +49,21 @@ export default function RegisterProfessionalPage() {
       });
       return;
     }
-    if (!dniPhoto) {
+    if (!selfieWithDni) {
       toast({
-        title: "Falta Documento de Identidad",
-        description: "Por favor, sube una foto de tu DNI/NIE para completar el registro.",
+        title: "Falta Selfie con Documento de Identidad",
+        description: "Por favor, sube una selfie con tu DNI/NIE para completar el registro.",
         variant: "destructive",
       });
       return;
     }
     // Simulate API call for registration
     const selectedServiceName = mockServices.find(s => s.id === serviceCategoryId)?.name || 'Categoría no especificada';
-    console.log("Registering professional (trabajador):", { name, email, password, serviceCategory: selectedServiceName, experience, bio, dniPhotoName: dniPhoto?.name });
+    console.log("Registering professional (trabajador):", { name, email, password, serviceCategory: selectedServiceName, experience, bio, selfieWithDniName: selfieWithDni?.name });
     
     toast({
       title: "¡Perfil Profesional Creado!",
-      description: `¡Bienvenido, ${name}! Tu perfil para ofrecer servicios de "${selectedServiceName}" ha sido creado. Tu DNI (${dniPhotoName}) está pendiente de verificación. Ahora puedes publicar tus servicios.`,
+      description: `¡Bienvenido, ${name}! Tu perfil para ofrecer servicios de "${selectedServiceName}" ha sido creado. Tu Selfie con DNI (${selfieWithDniName}) está pendiente de verificación. Ahora puedes publicar tus servicios.`,
       action: <ToastAction altText="Publicar un servicio" onClick={() => router.push('/publish-service')}>Publicar Servicio</ToastAction>,
       duration: 9000,
     });
@@ -75,10 +75,10 @@ export default function RegisterProfessionalPage() {
     setServiceCategoryId('');
     setExperience('');
     setBio('');
-    setDniPhoto(null);
-    setDniPhotoName('');
-    const dniInput = document.getElementById('dniPhoto') as HTMLInputElement;
-    if (dniInput) dniInput.value = '';
+    setSelfieWithDni(null);
+    setSelfieWithDniName('');
+    const selfieInput = document.getElementById('selfieWithDni') as HTMLInputElement;
+    if (selfieInput) selfieInput.value = '';
 
     // Optionally redirect after a delay
     setTimeout(() => {
@@ -94,7 +94,7 @@ export default function RegisterProfessionalPage() {
             <Briefcase className="w-10 h-10 mr-3 text-primary" />
             <CardTitle className="text-2xl font-headline">Registro de Profesional</CardTitle>
           </div>
-          <CardDescription className="text-center">Únete a nuestra red de profesionales y ofrece tus servicios. Se requiere DNI/NIE para verificación.</CardDescription>
+          <CardDescription className="text-center">Únete a nuestra red de profesionales y ofrece tus servicios. Se requiere DNI/NIE y una selfie para verificación.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -143,20 +143,20 @@ export default function RegisterProfessionalPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="dniPhoto" className="flex items-center font-medium">
-                <UploadCloud className="w-5 h-5 mr-2 text-primary" />
-                Foto de DNI/NIE (Anverso) - Requerido
+              <Label htmlFor="selfieWithDni" className="flex items-center font-medium">
+                <Camera className="w-5 h-5 mr-2 text-primary" />
+                Selfie con DNI/NIE - Requerido
               </Label>
               <Input 
-                id="dniPhoto" 
+                id="selfieWithDni" 
                 type="file" 
-                onChange={handleDniPhotoChange} 
+                onChange={handleSelfieWithDniChange} 
                 accept="image/jpeg, image/png, image/webp" 
                 required 
                 className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
               />
-              {dniPhotoName && <p className="text-xs text-muted-foreground pt-1">Archivo seleccionado: {dniPhotoName}</p>}
-              <p className="text-xs text-muted-foreground pt-1">Sube una imagen clara del anverso de tu documento de identidad. Necesario para verificación y seguridad de la plataforma.</p>
+              {selfieWithDniName && <p className="text-xs text-muted-foreground pt-1">Archivo seleccionado: {selfieWithDniName}</p>}
+              <p className="text-xs text-muted-foreground pt-1">Sube una foto clara tipo selfie donde se te vea sosteniendo tu DNI/NIE. Asegúrate de que el documento sea legible. Necesario para verificación y seguridad.</p>
             </div>
 
             <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">Crear Perfil Profesional</Button>
@@ -175,3 +175,5 @@ export default function RegisterProfessionalPage() {
     </div>
   );
 }
+
+    
