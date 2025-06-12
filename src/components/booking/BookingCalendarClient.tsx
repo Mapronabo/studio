@@ -1,34 +1,36 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation'; // Import useRouter and usePathname
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import { mockProviders } from '@/data/mockData'; // Import mockProviders to get provider name
 
 interface TimeSlot {
   time: string;
   available: boolean;
 }
 
-// Generate some mock time slots based on current time
 const generateTimeSlots = (): TimeSlot[] => {
   const slots: TimeSlot[] = [];
   const now = new Date();
   let startHour = 9;
 
-  // If current time is past 9 AM, start from the next available hour
   if (now.getHours() >= 9) {
     startHour = now.getHours() + 1;
   }
   
-  if (startHour >= 17) { // If past 5 PM, no slots for today
+  if (startHour >= 17) {
     return [{ time: "No slots available today", available: false }];
   }
 
-  for (let i = startHour; i < 17; i++) { // 9 AM to 5 PM
-    slots.push({ time: `${i}:00`, available: Math.random() > 0.3 }); // Random availability
+  for (let i = startHour; i < 17; i++) {
+    slots.push({ time: `${i}:00`, available: Math.random() > 0.3 });
     slots.push({ time: `${i}:30`, available: Math.random() > 0.3 });
   }
   return slots.length > 0 ? slots : [{ time: "No slots available today", available: false }];
@@ -40,27 +42,51 @@ export default function BookingCalendarClient() {
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const { toast } = useToast();
+  const router = useRouter();
+  const pathname = usePathname(); // Get current path to extract providerId
+
+  // Extract providerId from the URL (e.g., /providers/[id])
+  const providerId = pathname.split('/providers/')[1]?.split('/')[0];
+  const provider = mockProviders.find(p => p.id === providerId);
+
 
   useEffect(() => {
     setTimeSlots(generateTimeSlots());
+    setSelectedTime(null); // Reset selected time when date changes
   }, [selectedDate]);
 
-  const handleBooking = () => {
-    if (selectedDate && selectedTime) {
+  const handleBookingRequest = () => {
+    if (selectedDate && selectedTime && provider) {
+      // Simulate booking request
       toast({
         title: "Booking Requested",
-        description: `Your request for ${selectedDate.toLocaleDateString()} at ${selectedTime} has been submitted.`,
+        description: `Your request for ${selectedDate.toLocaleDateString()} at ${selectedTime} with ${provider.name} has been submitted. Proceed to payment.`,
         variant: "default",
       });
-      // Reset selection
-      setSelectedTime(null);
-      // Potentially refresh time slots or mark as booked
-      setTimeSlots(prevSlots => prevSlots.map(slot => slot.time === selectedTime ? {...slot, available: false} : slot));
 
+      // Prepare query parameters for payment page
+      // For simplicity, let's assume a generic service name and price if not easily available here
+      // In a real app, you'd fetch service details or pass them down
+      const serviceToBook = provider.servicesOffered[0] || { name: 'Consultation', price: provider.hourlyRate || 50 };
+
+      const queryParams = new URLSearchParams({
+        providerId: provider.id,
+        providerName: provider.name,
+        serviceName: serviceToBook.name,
+        price: serviceToBook.price.toString(),
+        date: selectedDate.toISOString().split('T')[0],
+        time: selectedTime,
+      });
+
+      router.push(`/payment?${queryParams.toString()}`);
+      
+      // Reset selection after navigating
+      // setSelectedTime(null); // No need, as we are navigating away
+      // setTimeSlots(prevSlots => prevSlots.map(slot => slot.time === selectedTime ? {...slot, available: false} : slot)); // This would be for client-side state update if not navigating
     } else {
       toast({
         title: "Booking Error",
-        description: "Please select a date and time slot.",
+        description: "Please select a date, time slot, or ensure provider details are available.",
         variant: "destructive",
       });
     }
@@ -80,7 +106,7 @@ export default function BookingCalendarClient() {
           selected={selectedDate}
           onSelect={setSelectedDate}
           className="rounded-md border"
-          disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() -1)) } // Disable past dates
+          disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() -1)) }
         />
         {selectedDate && (
           <div>
@@ -104,8 +130,8 @@ export default function BookingCalendarClient() {
             )}
           </div>
         )}
-        <Button onClick={handleBooking} disabled={!selectedTime} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-          Request Booking
+        <Button onClick={handleBookingRequest} disabled={!selectedTime || !provider} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
+          Request & Proceed to Payment
         </Button>
       </CardContent>
     </Card>
