@@ -20,7 +20,7 @@ import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 import { cn } from "@/lib/utils";
 import { useRouter } from 'next/navigation';
-
+import { matchService } from '@/ai/flows/match-service-flow'; // Importar el nuevo flow
 
 const popularCategories = mockServices.map(service => {
   const iconMap: { [key: string]: React.ComponentType<any> } = {
@@ -148,17 +148,32 @@ export default function HomePage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [openLocationPopover, setOpenLocationPopover] = useState(false);
-  const [selectedServiceId, setSelectedServiceId] = useState<string>(""); 
-  const [openServicePopover, setOpenServicePopover] = useState(false);
+  const [userInputServiceText, setUserInputServiceText] = useState<string>(""); // Nuevo estado para el input de texto del servicio
+  const [isSearchingService, setIsSearchingService] = useState(false); // Estado para feedback de carga
   const router = useRouter();
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSearchingService(true);
     const queryParams = new URLSearchParams();
-    if (selectedServiceId) queryParams.append('serviceId', selectedServiceId);
+
+    if (userInputServiceText.trim()) {
+      try {
+        const servicesForAI = mockServices.map(s => ({ id: s.id, name: s.name }));
+        const result = await matchService({ userInputText: userInputServiceText, availableServices: servicesForAI });
+        if (result.matchedServiceId && result.matchedServiceId !== 'NO_MATCH') {
+          queryParams.append('serviceId', result.matchedServiceId);
+        }
+      } catch (error) {
+        console.error("Error matching service with AI:", error);
+        // Opcional: mostrar un toast al usuario
+      }
+    }
+
     if (selectedLocation) queryParams.append('location', selectedLocation);
     if (selectedDate) queryParams.append('date', format(selectedDate, 'yyyy-MM-dd'));
-
+    
+    setIsSearchingService(false);
     router.push(`/find-providers?${queryParams.toString()}`);
   };
 
@@ -177,52 +192,18 @@ export default function HomePage() {
           <div className="bg-card border p-6 md:p-8 rounded-xl shadow-2xl max-w-4xl mx-auto backdrop-blur-lg bg-background/95">
             <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
               <div className="relative">
-                <Label htmlFor="service-needed" className="block text-sm font-medium text-foreground mb-1 text-left">¿Qué necesitas?</Label>
-                 <Popover open={openServicePopover} onOpenChange={setOpenServicePopover}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={openServicePopover}
-                      className="relative w-full justify-between pl-10 h-12 text-foreground pr-3"
-                    >
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                      {selectedServiceId
-                        ? mockServices.find((service) => service.id.toLowerCase() === selectedServiceId.toLowerCase())?.name
-                        : "Servicio"}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                    <Command>
-                      <CommandInput placeholder="Busca un servicio..." />
-                      <CommandList>
-                        <CommandEmpty>No se encontró el servicio.</CommandEmpty>
-                        <CommandGroup>
-                          {mockServices.map((service) => (
-                            <CommandItem
-                              key={service.id}
-                              value={service.name} 
-                              onSelect={(currentValue) => {
-                                const serviceId = mockServices.find(s => s.name.toLowerCase() === currentValue.toLowerCase())?.id || "";
-                                setSelectedServiceId(serviceId.toLowerCase() === selectedServiceId ? "" : serviceId.toLowerCase());
-                                setOpenServicePopover(false);
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  selectedServiceId === service.id.toLowerCase() ? "opacity-100" : "opacity-0"
-                                )}
-                              />
-                              {service.name}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
+                <Label htmlFor="service-needed-text" className="block text-sm font-medium text-foreground mb-1 text-left">¿Qué necesitas?</Label>
+                <div className="relative">
+                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                   <Input
+                    id="service-needed-text"
+                    type="text"
+                    value={userInputServiceText}
+                    onChange={(e) => setUserInputServiceText(e.target.value)}
+                    placeholder="Describe el servicio que buscas..."
+                    className="pl-10 h-12"
+                  />
+                </div>
               </div>
               <div className="relative">
                 <Label htmlFor="location" className="block text-sm font-medium text-foreground mb-1 text-left">Ubicación</Label>
@@ -298,9 +279,21 @@ export default function HomePage() {
                   </PopoverContent>
                 </Popover>
               </div>
-              <Button type="submit" size="lg" className="h-12 w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base md:inline">
-                <Search className="mr-2 h-5 w-5" />
-                <span className="inline">Buscar</span>
+              <Button type="submit" size="lg" className="h-12 w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base md:inline" disabled={isSearchingService}>
+                {isSearchingService ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Buscando...
+                  </>
+                ) : (
+                  <>
+                    <Search className="mr-2 h-5 w-5 md:inline" />
+                    <span className="inline">Buscar</span>
+                  </>
+                )}
               </Button>
             </form>
           </div>
@@ -366,8 +359,9 @@ export default function HomePage() {
                   <Image
                     src={provider.galleryImageUrls[0] || 'https://placehold.co/600x400.png'}
                     alt={`${provider.name} service`}
-                    layout="fill"
-                    objectFit="cover"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    style={{objectFit: 'cover'}}
                     data-ai-hint="service action photo"
                   />
                    <Badge variant="default" className="absolute top-3 right-3 bg-accent text-accent-foreground">Destacado</Badge>

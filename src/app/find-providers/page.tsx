@@ -1,18 +1,22 @@
+
 // src/app/find-providers/page.tsx
 "use client";
 
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import type { Provider } from '@/types';
-import { mockProviders, mockServices, getServiceIconByName } from '@/data/mockData';
+import { mockProviders, mockServices } from '@/data/mockData'; // Removed getServiceIconByName as it's not used here directly
 import ProviderCard from '@/components/provider/ProviderCard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, MapPin, CalendarDays, Filter, ListFilter, AlertTriangle } from 'lucide-react';
+import { Search, ListFilter, AlertTriangle, Briefcase } from 'lucide-react'; // Added Briefcase for default icon
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { Label } from '@/components/ui/label'; // Ensure Label is imported
+import { cn } from '@/lib/utils'; // Ensure cn is imported
+
 
 function FindProvidersContent() {
   const searchParams = useSearchParams();
@@ -27,7 +31,10 @@ function FindProvidersContent() {
 
   const targetService = serviceIdQuery ? mockServices.find(s => s.id === serviceIdQuery) : null;
   const serviceCategoryName = targetService?.name;
-  const ServiceIcon = targetService?.icon || Search;
+  
+  // Get icon for the service, or a default one
+  const ServiceIcon = targetService?.icon || Briefcase;
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -41,7 +48,6 @@ function FindProvidersContent() {
       providers = providers.filter(p => p.location.toLowerCase().includes(locationQuery.toLowerCase()));
     }
     
-    // Simple text search on current results
     if (searchTerm) {
         providers = providers.filter(p => 
             p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -49,10 +55,6 @@ function FindProvidersContent() {
             p.servicesOffered.some(so => so.name.toLowerCase().includes(searchTerm.toLowerCase()))
         );
     }
-
-    // Date filtering is complex with mock availability strings. 
-    // For now, we are not strictly filtering by date but acknowledge it.
-    // A real implementation would query backend with date availability.
 
     setFilteredProviders(providers);
     setIsLoading(false);
@@ -114,6 +116,7 @@ function FindProvidersContent() {
               <h3 className="text-xl font-semibold mb-2">No se encontraron proveedores</h3>
               <p className="text-muted-foreground">
                 Intenta ajustar tus criterios de búsqueda o explora otras categorías.
+                 {!serviceIdQuery && "Prueba especificando un servicio."}
               </p>
               <Link href="/" passHref>
                 <Button variant="default" className="mt-6 bg-accent hover:bg-accent/80 text-accent-foreground">
@@ -144,12 +147,5 @@ export default function FindProvidersPage() {
   );
 }
 
-// Minimal Label component as it's not a standard HTML element, 
-// usually it would come from @/components/ui/label but this is a page not a component.
-const Label = ({ htmlFor, children, className }: { htmlFor?: string; children: React.ReactNode; className?: string }) => (
-  <label htmlFor={htmlFor} className={cn("block text-sm font-medium text-foreground", className)}>
-    {children}
-  </label>
-);
-
-const cn = (...inputs: any[]) => inputs.filter(Boolean).join(' '); // Basic cn for this context
+// Removed inline Label component as it should be imported from @/components/ui/label
+// Removed inline cn function as it should be imported from @/lib/utils
