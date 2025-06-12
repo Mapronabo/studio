@@ -71,7 +71,7 @@ function PaymentPageContent() {
               <p><strong>Fecha y Hora:</strong> {formattedDate} a las {time}</p>
               <Separator className="my-2" />
               <p><strong>Precio del Servicio:</strong> {price.toFixed(2)} €</p>
-              <p className="text-xs text-muted-foreground">ServiMatch aplicará una comisión del {(commissionRate * 100).toFixed(0)}% ({commissionAmount.toFixed(2)} €) al proveedor sobre este precio.</p>
+              <p className="text-xs text-muted-foreground">Renko aplicará una comisión del {(commissionRate * 100).toFixed(0)}% ({commissionAmount.toFixed(2)} €) al proveedor sobre este precio.</p>
               <Separator className="my-2" />
               <p className="text-lg font-bold"><strong>Total a Pagar por ti:</strong> {totalAmount.toFixed(2)} €</p>
             </div>

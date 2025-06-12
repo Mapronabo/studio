@@ -62,7 +62,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
           <Link href="/" className="flex items-center space-x-2">
             <LogoSvg />
             <span className="text-2xl font-bold font-headline sm:inline-block text-primary">
-              ServiMatch
+              Renko
             </span>
           </Link>
           
@@ -94,7 +94,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
-              <h3 className="text-lg font-semibold font-headline mb-3">ServiMatch</h3>
+              <h3 className="text-lg font-semibold font-headline mb-3">Renko</h3>
               <p className="text-sm text-muted-foreground">Conectando personas con profesionales de confianza para cada necesidad.</p>
             </div>
             <div>
@@ -147,7 +147,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
             </div>
           </div>
           <div className="border-t border-muted pt-8 text-center text-sm text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} ServiMatch. Todos los derechos reservados.</p>
+            <p>&copy; {new Date().getFullYear()} Renko. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>

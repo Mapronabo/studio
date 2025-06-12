@@ -234,11 +234,11 @@ export const mockMessages: { [conversationId: string]: ChatMessage[] } = {
 
 export const mockFaqs: { question: string, answer: string }[] = [
   {
-    question: "¿Cómo funciona ServiMatch?",
-    answer: "ServiMatch te conecta con profesionales locales. Simplemente busca el servicio que necesitas, compara perfiles y precios, reserva directamente y paga de forma segura a través de la plataforma. Después del servicio, puedes valorar al profesional."
+    question: "¿Cómo funciona Renko?",
+    answer: "Renko te conecta con profesionales locales. Simplemente busca el servicio que necesitas, compara perfiles y precios, reserva directamente y paga de forma segura a través de la plataforma. Después del servicio, puedes valorar al profesional."
   },
   {
-    question: "¿Es seguro pagar a través de ServiMatch?",
+    question: "¿Es seguro pagar a través de Renko?",
     answer: "Sí, utilizamos pasarelas de pago seguras y encriptadas para proteger tu información financiera. El pago se retiene hasta que confirmas que el servicio se ha completado satisfactoriamente (según el tipo de servicio)."
   },
   {
@@ -246,12 +246,12 @@ export const mockFaqs: { question: string, answer: string }[] = [
     answer: "Nuestro equipo de soporte está aquí para ayudarte. Puedes contactarnos a través del Centro de Ayuda y mediaremos para resolver cualquier inconveniente que puedas tener con un profesional."
   },
   {
-    question: "Soy profesional, ¿cómo me uno a ServiMatch?",
+    question: "Soy profesional, ¿cómo me uno a Renko?",
     answer: "¡Es fácil! Haz clic en 'Conviértete en profesional', completa tu perfil con tus servicios, experiencia, tarifas y sube una foto de tu DNI para verificación. Una vez aprobado, empezarás a recibir solicitudes de clientes."
   },
   {
     question: "¿Tiene algún costo registrarse como profesional?",
-    answer: "Registrarse y crear un perfil en ServiMatch es completamente gratis. Solo aplicamos una pequeña comisión por servicio completado y pagado a través de la plataforma."
+    answer: "Registrarse y crear un perfil en Renko es completamente gratis. Solo aplicamos una pequeña comisión por servicio completado y pagado a través de la plataforma."
   }
 ];
 

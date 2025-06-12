@@ -4,7 +4,7 @@ import './globals.css';
 import AppShell from '@/components/layout/AppShell'; // Importar AppShell
 
 export const metadata: Metadata = {
-  title: 'ServiMatch',
+  title: 'Renko',
   description: 'Encuentra al mejor profesional cerca de ti. Compara precios, reserva al instante y recibe atención de confianza.',
   icons: null, // Explicitly set icons to null
 };

@@ -98,7 +98,7 @@ const testimonials = [
     avatarUrl: 'https://placehold.co/80x80.png',
     avatarAiHint: 'woman portrait',
     avatarFallback: 'LM',
-    quote: '¡ServiMatch me salvó! Encontré un jardinero de urgencia en minutos y el trabajo fue impecable. ¡Totalmente recomendado!',
+    quote: '¡Renko me salvó! Encontré un jardinero de urgencia en minutos y el trabajo fue impecable. ¡Totalmente recomendado!',
     rating: 5,
   },
   {
@@ -108,7 +108,7 @@ const testimonials = [
     avatarUrl: 'https://placehold.co/80x80.png',
     avatarAiHint: 'man portrait',
     avatarFallback: 'CG',
-    quote: 'Desde que me uní a ServiMatch, mi agenda está llena. La plataforma es fácil de usar y me conecta con clientes serios.',
+    quote: 'Desde que me uní a Renko, mi agenda está llena. La plataforma es fácil de usar y me conecta con clientes serios.',
     rating: 5,
   },
   {
@@ -118,7 +118,7 @@ const testimonials = [
     avatarUrl: 'https://placehold.co/80x80.png',
     avatarAiHint: 'person avatar',
     avatarFallback: 'AP',
-    quote: 'He usado ServiMatch para todo, desde limpieza hasta clases de guitarra. Siempre encuentro profesionales de confianza y buenos precios.',
+    quote: 'He usado Renko para todo, desde limpieza hasta clases de guitarra. Siempre encuentro profesionales de confianza y buenos precios.',
     rating: 4,
   },
   {
@@ -138,7 +138,7 @@ const testimonials = [
     avatarUrl: 'https://placehold.co/80x80.png',
     avatarAiHint: 'woman cleaning professional',
     avatarFallback: 'SL',
-    quote: 'ServiMatch me ha ayudado a conseguir más clientes en mi área. La comisión es justa y los pagos son puntuales.',
+    quote: 'Renko me ha ayudado a conseguir más clientes en mi área. La comisión es justa y los pagos son puntuales.',
     rating: 5,
   }
 ];
@@ -349,7 +349,7 @@ export default function HomePage() {
       {/* How It Works Section */}
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl font-headline font-semibold text-center mb-12 text-foreground">Así de fácil funciona ServiMatch</h2>
+          <h2 className="text-3xl font-headline font-semibold text-center mb-12 text-foreground">Así de fácil funciona Renko</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {howItWorksSteps.map((step, index) => (
               <div key={index} className="flex flex-col items-center text-center">
@@ -488,7 +488,7 @@ export default function HomePage() {
       {/* Call to Action for Professionals */}
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 md:px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">¿Ofreces servicios? Gana dinero con ServiMatch</h2>
+          <h2 className="text-3xl md:text-4xl font-headline font-bold mb-6">¿Ofreces servicios? Gana dinero con Renko</h2>
           <p className="text-lg md:text-xl max-w-2xl mx-auto mb-8">
             Únete a nuestra creciente comunidad de profesionales. Aumenta tu visibilidad, gestiona tu agenda y recibe pagos de forma segura. ¡Sin comisiones iniciales!
           </p>
@@ -544,6 +544,7 @@ export default function HomePage() {
     
 
     
+
 
 
 

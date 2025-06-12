@@ -32,7 +32,7 @@ const professionalSteps = [
   {
     icon: UserPlus,
     title: "1. Regístrate y Crea tu Perfil",
-    description: "Únete gratis a ServiMatch. Completa tu perfil profesional detallando tu experiencia, habilidades y sube una selfie con tu DNI/NIE para verificación. Un perfil completo atrae más clientes."
+    description: "Únete gratis a Renko. Completa tu perfil profesional detallando tu experiencia, habilidades y sube una selfie con tu DNI/NIE para verificación. Un perfil completo atrae más clientes."
   },
   {
     icon: CheckSquare,
@@ -47,7 +47,7 @@ const professionalSteps = [
   {
     icon: Award,
     title: "4. Realiza el Trabajo y Recibe tu Pago",
-    description: "Ofrece un servicio de calidad. Una vez completado y confirmado por el cliente, recibirás tu pago directamente en tu cuenta, menos una pequeña comisión de ServiMatch (5%)."
+    description: "Ofrece un servicio de calidad. Una vez completado y confirmado por el cliente, recibirás tu pago directamente en tu cuenta, menos una pequeña comisión de Renko (5%)."
   }
 ];
 
@@ -56,7 +56,7 @@ export default function HowItWorksPage() {
     <div className="container mx-auto px-4 md:px-6 py-12 space-y-12">
       <header className="text-center space-y-4">
         <h1 className="text-4xl md:text-5xl font-headline font-bold text-primary">
-          Cómo Funciona ServiMatch
+          Cómo Funciona Renko
         </h1>
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
           Encuentra servicios o crece tu negocio de forma fácil, rápida y segura.
@@ -130,7 +130,7 @@ export default function HowItWorksPage() {
       <section className="text-center py-10">
         <h2 className="text-2xl font-headline font-semibold mb-4 text-foreground">¿Listo para Empezar?</h2>
         <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-          Únete a la comunidad ServiMatch hoy mismo y descubre una nueva forma de conectar servicios y oportunidades.
+          Únete a la comunidad Renko hoy mismo y descubre una nueva forma de conectar servicios y oportunidades.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Link href="/" passHref>
