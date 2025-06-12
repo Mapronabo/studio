@@ -20,7 +20,7 @@ import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 import { cn } from "@/lib/utils";
 import { useRouter } from 'next/navigation';
-import { matchService } from '@/ai/flows/match-service-flow'; // Importar el nuevo flow
+import { matchService } from '@/ai/flows/match-service-flow'; 
 
 const popularCategories = mockServices.map(service => {
   const iconMap: { [key: string]: React.ComponentType<any> } = {
@@ -148,8 +148,8 @@ export default function HomePage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [openLocationPopover, setOpenLocationPopover] = useState(false);
-  const [userInputServiceText, setUserInputServiceText] = useState<string>(""); // Nuevo estado para el input de texto del servicio
-  const [isSearchingService, setIsSearchingService] = useState(false); // Estado para feedback de carga
+  const [userInputServiceText, setUserInputServiceText] = useState<string>("");
+  const [isSearchingService, setIsSearchingService] = useState(false);
   const router = useRouter();
 
   const handleSearch = async (e: React.FormEvent) => {
@@ -158,6 +158,7 @@ export default function HomePage() {
     const queryParams = new URLSearchParams();
 
     if (userInputServiceText.trim()) {
+      queryParams.append('query', userInputServiceText.trim());
       try {
         const servicesForAI = mockServices.map(s => ({ id: s.id, name: s.name }));
         const result = await matchService({ userInputText: userInputServiceText, availableServices: servicesForAI });
@@ -166,7 +167,6 @@ export default function HomePage() {
         }
       } catch (error) {
         console.error("Error matching service with AI:", error);
-        // Opcional: mostrar un toast al usuario
       }
     }
 
@@ -189,9 +189,9 @@ export default function HomePage() {
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Compara precios, reserva al instante y recibe atención de confianza para todas tus necesidades del hogar y más.
           </p>
-          <div className="bg-card border p-6 md:p-8 rounded-xl shadow-2xl max-w-4xl mx-auto backdrop-blur-lg bg-background/95">
+          <div className="bg-card border p-6 md:p-8 rounded-xl shadow-2xl backdrop-blur-lg bg-background/95">
             <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-              <div className="relative">
+              <div className="relative md:col-span-1">
                 <Label htmlFor="service-needed-text" className="block text-sm font-medium text-foreground mb-1 text-left">¿Qué necesitas?</Label>
                 <div className="relative">
                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -200,12 +200,12 @@ export default function HomePage() {
                     type="text"
                     value={userInputServiceText}
                     onChange={(e) => setUserInputServiceText(e.target.value)}
-                    placeholder="Describe el servicio que buscas..."
+                    placeholder="Describe el servicio..."
                     className="pl-10 h-12"
                   />
                 </div>
               </div>
-              <div className="relative">
+              <div className="relative md:col-span-1">
                 <Label htmlFor="location" className="block text-sm font-medium text-foreground mb-1 text-left">Ubicación</Label>
                 <Popover open={openLocationPopover} onOpenChange={setOpenLocationPopover}>
                   <PopoverTrigger asChild>
@@ -252,7 +252,7 @@ export default function HomePage() {
                   </PopoverContent>
                 </Popover>
               </div>
-              <div className="relative">
+              <div className="relative md:col-span-1">
                 <Label htmlFor="date" className="block text-sm font-medium text-foreground mb-1 text-left">Fecha</Label>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -279,7 +279,7 @@ export default function HomePage() {
                   </PopoverContent>
                 </Popover>
               </div>
-              <Button type="submit" size="lg" className="h-12 w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base md:inline" disabled={isSearchingService}>
+              <Button type="submit" size="lg" className="h-12 w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base md:col-span-1" disabled={isSearchingService}>
                 {isSearchingService ? (
                   <>
                     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -493,3 +493,4 @@ export default function HomePage() {
     
 
     
+
