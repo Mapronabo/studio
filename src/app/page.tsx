@@ -11,7 +11,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from '@/components/ui/badge';
 import { mockServices, mockProviders, mockFaqs, mockLocations } from '@/data/mockData'; 
 import { Search, MapPin, CalendarDays, Users, CreditCard, Star, ListChecks, ThumbsUp, Briefcase, ChevronRight, Zap, Sprout, Sparkles, PaintRoller, Dog, BookOpen, UserCheck, ShieldCheck, Clock, Hammer, Truck, Laptop, Wrench, Dumbbell, Camera, Music, ChefHat, Scale, Baby, Square as CarpentrySquare, Disc3, CalendarCheck2, Languages, Palette, Code2, Landmark, Check, ChevronsUpDown, Hand, Scissors, Smile, Wand2 } from 'lucide-react';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
@@ -145,6 +145,8 @@ const testimonials = [
 
 
 export default function HomePage() {
+  const [selectedService, setSelectedService] = useState<Service | undefined>();
+  const [isServicePickerOpen, setIsServicePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<string>("");
@@ -159,7 +161,7 @@ export default function HomePage() {
     const queryParams = new URLSearchParams();
 
     if (userInputServiceText.trim()) {
-      queryParams.append('query', userInputServiceText.trim());
+      queryParams.append('query', userInputServiceText.trim()); // Pass the original user query
       try {
         const servicesForAI = mockServices.map(s => ({ id: s.id, name: s.name }));
         const result = await matchService({ userInputText: userInputServiceText, availableServices: servicesForAI });
@@ -168,10 +170,11 @@ export default function HomePage() {
         }
       } catch (error) {
         console.error("Error matching service with AI:", error);
-        // If AI matching fails, the query param 'serviceId' won't be appended.
-        // The search page can then decide to do a broader text search based on 'query'.
       }
+    } else if (selectedService) { // Fallback if text input is empty but service dropdown was used
+        queryParams.append('serviceId', selectedService.id);
     }
+
 
     if (selectedLocation) queryParams.append('location', selectedLocation);
     if (selectedDate) queryParams.append('date', format(selectedDate, 'yyyy-MM-dd'));
@@ -311,19 +314,37 @@ export default function HomePage() {
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-headline font-semibold text-center mb-10 text-foreground">Explora categorías populares</h2>
           <div className="overflow-hidden py-4">
-            <div className="flex gap-6 animate-scroll-x-loop">
-              {[...popularCategories, ...popularCategories].map((category, index) => ( 
-                <Link href={`/find-providers?serviceId=${category.id}`} key={`${category.id}-${index}`} passHref>
-                  <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card min-w-[160px] md:min-w-[200px] flex-shrink-0 aspect-square">
-                    <CardContent className="flex flex-col items-center justify-center space-y-3 h-full">
-                      <div className="p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
-                        <category.icon className="w-10 h-10 text-primary" />
-                      </div>
-                      <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-base">{category.name}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
+            <div className="flex animate-scroll-x-loop will-change-transform">
+              {/* Set 1 of categories */}
+              <div className="flex flex-none gap-6 pr-6">
+                {popularCategories.map((category, index) => ( 
+                  <Link href={`/find-providers?serviceId=${category.id}`} key={`${category.id}-set1-${index}`} passHref>
+                    <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card min-w-[160px] md:min-w-[200px] flex-shrink-0 aspect-square">
+                      <CardContent className="flex flex-col items-center justify-center space-y-3 h-full">
+                        <div className="p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
+                          <category.icon className="w-10 h-10 text-primary" />
+                        </div>
+                        <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-base">{category.name}</p>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+              {/* Set 2 of categories (duplicate for seamless scroll) */}
+              <div className="flex flex-none gap-6 pr-6">
+                {popularCategories.map((category, index) => ( 
+                  <Link href={`/find-providers?serviceId=${category.id}`} key={`${category.id}-set2-${index}`} passHref>
+                    <Card className="group text-center p-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-card min-w-[160px] md:min-w-[200px] flex-shrink-0 aspect-square">
+                      <CardContent className="flex flex-col items-center justify-center space-y-3 h-full">
+                        <div className="p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
+                          <category.icon className="w-10 h-10 text-primary" />
+                        </div>
+                        <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-base">{category.name}</p>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -412,29 +433,57 @@ export default function HomePage() {
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-headline font-semibold text-center mb-12 text-foreground">Lo que dicen nuestros usuarios</h2>
           <div className="overflow-hidden py-4">
-            <div className="flex gap-8 animate-scroll-x-loop">
-              {[...testimonials, ...testimonials].map((testimonial, index) => (
-                <Card key={`${testimonial.id}-${index}`} className="flex flex-col shadow-lg bg-card min-w-[320px] md:min-w-[380px] flex-shrink-0">
-                  <CardContent className="p-6 flex-grow">
-                    <div className="flex items-center mb-4">
-                      <Avatar className="h-16 w-16 mr-4 border-2 border-primary">
-                        <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarAiHint} />
-                        <AvatarFallback className="text-xl">{testimonial.avatarFallback}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <h3 className="font-semibold font-headline text-lg text-foreground">{testimonial.name}</h3>
-                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+            <div className="flex animate-scroll-x-loop will-change-transform">
+              {/* Set 1 of testimonials */}
+              <div className="flex flex-none gap-8 pr-8">
+                {testimonials.map((testimonial, index) => (
+                  <Card key={`${testimonial.id}-set1-${index}`} className="flex flex-col shadow-lg bg-card min-w-[320px] md:min-w-[380px] flex-shrink-0">
+                    <CardContent className="p-6 flex-grow">
+                      <div className="flex items-center mb-4">
+                        <Avatar className="h-16 w-16 mr-4 border-2 border-primary">
+                          <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarAiHint} />
+                          <AvatarFallback className="text-xl">{testimonial.avatarFallback}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h3 className="font-semibold font-headline text-lg text-foreground">{testimonial.name}</h3>
+                          <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex mb-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={20} className={` ${i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground'}`} />
-                      ))}
-                    </div>
-                    <p className="text-foreground italic leading-relaxed">"{testimonial.quote}"</p>
-                  </CardContent>
-                </Card>
-              ))}
+                      <div className="flex mb-2">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} size={20} className={` ${i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground'}`} />
+                        ))}
+                      </div>
+                      <p className="text-foreground italic leading-relaxed">"{testimonial.quote}"</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              {/* Set 2 of testimonials (duplicate for seamless scroll) */}
+              <div className="flex flex-none gap-8 pr-8">
+                {testimonials.map((testimonial, index) => (
+                  <Card key={`${testimonial.id}-set2-${index}`} className="flex flex-col shadow-lg bg-card min-w-[320px] md:min-w-[380px] flex-shrink-0">
+                    <CardContent className="p-6 flex-grow">
+                      <div className="flex items-center mb-4">
+                        <Avatar className="h-16 w-16 mr-4 border-2 border-primary">
+                          <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint={testimonial.avatarAiHint} />
+                          <AvatarFallback className="text-xl">{testimonial.avatarFallback}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h3 className="font-semibold font-headline text-lg text-foreground">{testimonial.name}</h3>
+                          <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                        </div>
+                      </div>
+                      <div className="flex mb-2">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} size={20} className={` ${i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground'}`} />
+                        ))}
+                      </div>
+                      <p className="text-foreground italic leading-relaxed">"{testimonial.quote}"</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -499,5 +548,6 @@ export default function HomePage() {
     
 
     
+
 
 
