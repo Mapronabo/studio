@@ -146,6 +146,7 @@ const testimonials = [
 
 export default function HomePage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [openLocationPopover, setOpenLocationPopover] = useState(false);
   const [userInputServiceText, setUserInputServiceText] = useState<string>("");
@@ -167,6 +168,8 @@ export default function HomePage() {
         }
       } catch (error) {
         console.error("Error matching service with AI:", error);
+        // If AI matching fails, the query param 'serviceId' won't be appended.
+        // The search page can then decide to do a broader text search based on 'query'.
       }
     }
 
@@ -254,7 +257,7 @@ export default function HomePage() {
               </div>
               <div className="relative md:col-span-1">
                 <Label htmlFor="date" className="block text-sm font-medium text-foreground mb-1 text-left">Fecha</Label>
-                <Popover>
+                <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
                   <PopoverTrigger asChild>
                     <Button
                       variant={"outline"}
@@ -271,7 +274,10 @@ export default function HomePage() {
                     <Calendar
                       mode="single"
                       selected={selectedDate}
-                      onSelect={setSelectedDate}
+                      onSelect={(date) => {
+                        setSelectedDate(date);
+                        setIsDatePickerOpen(false);
+                      }}
                       initialFocus
                       disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() -1)) } 
                       locale={es}
@@ -493,4 +499,5 @@ export default function HomePage() {
     
 
     
+
 
