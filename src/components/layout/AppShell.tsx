@@ -109,7 +109,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
             <div>
               <h3 className="text-lg font-semibold font-headline mb-3">Soporte</h3>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/how-it-works" className="hover:text-primary transition-colors">Centro de Ayuda</Link></li>
+                <li><Link href="/help" className="hover:text-primary transition-colors">Centro de Ayuda</Link></li>
                 <li><Link href="/terms" className="hover:text-primary transition-colors">Términos de Servicio</Link></li>
                 <li><Link href="/privacy" className="hover:text-primary transition-colors">Política de Privacidad</Link></li>
               </ul>
